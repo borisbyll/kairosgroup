@@ -1,0 +1,282 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link, useLocation } from 'react-router-dom';
+import Card from '../components/Card';
+import { siteConfig } from '../config/siteConfig';
+
+const Home = () => {
+  const [recentVehicles, setRecentVehicles] = useState([]);
+  const { pathname, hash } = useLocation();
+  const primaryColor = siteConfig.theme.primaryColor;
+
+  useEffect(() => {
+    if (hash) {
+      const element = document.getElementById(hash.replace('#', ''));
+      if (element) {
+        setTimeout(() => { element.scrollIntoView({ behavior: 'smooth' }); }, 100);
+      }
+    } else { window.scrollTo(0, 0); }
+  }, [pathname, hash]);
+
+  useEffect(() => {
+    const fetchRecent = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/cars`);
+        const latest = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3);
+        setRecentVehicles(latest);
+      } catch (err) { console.error("Erreur:", err); }
+    };
+    fetchRecent();
+  }, []);
+
+  return (
+    <div className="font-['Poppins'] bg-white overflow-x-hidden">
+      {/* --- INJECTION DU CSS D'ANIMATION --- */}
+      <style>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes kenBurns {
+          from { transform: scale(1.1); }
+          to { transform: scale(1); }
+        }
+        .animate-fade-up { animation: fadeInUp 0.8s ease-out forwards; }
+        .animate-ken-burns { animation: kenBurns 10s ease-out infinite alternate; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+      `}</style>
+
+      {/* --- SECTION HERO : TEXTE IMPOSANT & CENTRÉ --- */}
+      <section className="relative h-screen w-full flex items-center justify-center bg-[#1a1a1a] overflow-hidden pt-24">
+        {/* Image de fond avec effet Ken Burns */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={siteConfig.theme.heroImage} 
+            className="w-full h-full object-cover object-center animate-ken-burns" 
+            alt="Background Hero" 
+          />
+          <div className="absolute inset-0 bg-black/60"></div>
+        </div>
+
+        {/* Contenu textuel CENTRÉ et IMPOSANT */}
+        <div className="relative z-10 w-full max-w-[95%] mx-auto px-4 text-center">
+          <div className="max-w-6xl mx-auto">
+            <span style={{ color: primaryColor }} className="animate-fade-up font-bold text-[14px] uppercase tracking-[0.6em] mb-8 block ">
+              Prestige & Performance
+            </span>
+            
+            {/* Titre sur une seule ligne et plus grand */}
+            <h1 className="animate-fade-up delay-1 text-5xl md:text-[120px] font-black text-white uppercase leading-none mb-10 tracking-tighter whitespace-nowrap">
+              {siteConfig.name.split(' ')[0]} <span className="text-slate-400">{siteConfig.name.split(' ').slice(1).join(' ')}</span>
+            </h1>
+
+            <p className="animate-fade-up delay-2 text-slate-200 text-lg md:text-2xl mb-14 font-light max-w-3xl mx-auto leading-relaxed tracking-wide">
+              {siteConfig.tagline}. <br className="hidden md:block" /> 
+              L'expertise internationale pour votre mobilité d'exception.
+            </p>
+
+            <div className="animate-fade-up delay-3">
+              <Link to="/Catalogue" style={{ backgroundColor: primaryColor }} className="inline-block text-white px-20 py-6 rounded-full font-bold uppercase text-[12px] tracking-[0.2em] shadow-2xl hover:scale-105 transition-transform">
+                Explorer le stock
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Indicateur de Scroll */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+          <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>
+        </div>
+      </section>
+
+      {/* --- SECTION EXPERTISES --- */}
+      <section id="expertises" className="py-24 px-6 bg-white relative z-20">
+        <div className="max-w-4xl mx-auto text-center mb-20">
+          <span style={{ color: primaryColor }} className="font-bold text-[11px] uppercase tracking-[0.5em] mb-4 block animate-fade-up">Notre Savoir-Faire</span>
+          <h2 className="text-5xl md:text-6xl font-black text-slate-900 uppercase leading-none tracking-tighter">
+            Une Expertise <span className="text-slate-300 italic">Multisectorielle</span>
+          </h2>
+          <div className="w-24 h-1.5 mx-auto mt-8" style={{ backgroundColor: primaryColor }}></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8">
+          <div className="md:col-span-7 group relative h-[500px] overflow-hidden rounded-[2rem] bg-slate-900 shadow-xl">
+            <img src="/images/back.jpg" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-110 group-hover:opacity-100 transition-all duration-1000 ease-in-out" alt="Luxe" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent"></div>
+            <div className="absolute bottom-10 left-10 right-10">
+              <h3 className="text-3xl font-black text-white uppercase mb-2 tracking-tighter">Véhicules premium</h3>
+              <p className="text-slate-300 text-sm max-w-sm opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 ease-out">
+                Berlines de prestige et SUV premium importés pour une expérience de conduite inégalée.
+              </p>
+            </div>
+          </div>
+
+          <div className="md:col-span-5 group relative h-[500px] overflow-hidden rounded-[2rem] bg-slate-900 shadow-xl">
+            <img src="/images/camion.jpg" className="absolute inset-0 w-full h-full object-cover opacity-75 group-hover:scale-110 group-hover:opacity-100 transition-all duration-1000 ease-in-out" alt="Poids Lourds" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent"></div>
+            <div className="absolute bottom-10 left-10 right-10">
+              <h3 className="text-3xl font-black text-white uppercase mb-2 tracking-tighter">Camions</h3>
+              <p className="text-slate-300 text-sm opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 ease-out">
+                Solutions logistiques robustes adaptés aux exigences des professionnels.
+              </p>
+            </div>
+          </div>
+
+          <div className="md:col-span-12 group relative h-[450px] overflow-hidden rounded-[2rem] bg-slate-900 shadow-xl">
+            <img src="/images/tracteur.jpg" className="absolute inset-0 w-full h-full object-cover opacity-75 group-hover:scale-105 group-hover:opacity-100 transition-all duration-1000 ease-in-out" alt="Tracteurs Agricoles" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/20 to-transparent"></div>
+            <div className="absolute inset-y-0 left-12 flex flex-col justify-center right-12 md:right-auto">
+              <span className="text-white/60 text-[10px] uppercase tracking-[0.4em] mb-4">Secteur Primaire</span>
+              <h3 className="text-4xl md:text-5xl font-black text-white uppercase mb-4 tracking-tighter">
+                Tracteurs & <br /> <span style={{ color: primaryColor }}>Machines Agricoles</span>
+              </h3>
+              <div className="opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 ease-out">
+                  <p className="text-slate-300 text-sm max-w-md mb-8">
+                    Équipements de pointe pour optimiser vos rendements.
+                  </p>
+                  <Link to="/Catalogue" className="flex items-center gap-4 text-white text-[11px] font-bold uppercase tracking-widest hover:translate-x-3 transition-transform">
+                    Voir le catalogue agricole <span className="text-2xl" style={{ color: primaryColor }}>→</span>
+                  </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- SECTION POURQUOI NOUS CHOISIR --- */}
+      <section id="propos" className="py-28 bg-[#1a2b48] text-white overflow-hidden relative">
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] blur-[150px] rounded-full opacity-40" style={{ backgroundColor: primaryColor }}></div>
+        <div className="max-w-7xl mx-auto px-6 text-center lg:text-left">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div className="relative group">
+              <div className="relative z-10 overflow-hidden rounded-[3rem] border border-white/10 shadow-2xl">
+                <img src="/images/cool.jpg" className="w-full h-[600px] object-cover transition-transform duration-[2s] group-hover:scale-110" alt="Emile Auto Prestige" />
+                <div className="absolute top-10 right-10 bg-white/10 backdrop-blur-xl border border-white/20 p-6 rounded-3xl text-center">
+                  <p className="text-4xl font-black italic mb-0" style={{ color: primaryColor }}>Parc</p>
+                  <p className="text-[10px] uppercase tracking-widest font-bold">Premium</p>
+                </div>
+              </div>
+              <div className="absolute -bottom-6 -left-6 w-full h-full border-2 border-dashed border-white/10 rounded-[3rem] -z-10 transition-transform group-hover:-translate-x-2 group-hover:translate-y-2"></div>
+            </div>
+            <div className="space-y-12">
+              <div className="space-y-4">
+                <span style={{ color: primaryColor }} className="font-bold text-[11px] uppercase tracking-[0.5em] block">Nos Atouts Majeurs</span>
+                <h2 className="text-5xl md:text-6xl font-black uppercase leading-none tracking-tighter">
+                  L'Excellence <br /> <span className="text-slate-500 italic">sans compromis.</span>
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="group space-y-4 p-6 rounded-3xl transition-colors hover:bg-white/5 border border-transparent hover:border-white/10 text-left">
+                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center border border-white/20 group-hover:bg-white group-hover:text-black transition-all duration-500">
+                     <span className="text-xl font-bold">01</span>
+                  </div>
+                  <h4 className="text-lg font-bold uppercase tracking-tight">Importation Directe</h4>
+                  <p className="text-slate-400 text-sm leading-relaxed">Nous maîtrisons toute la chaîne logistique, CANADA-LOME / ALLEMAGNE-LOME.</p>
+                </div>
+                <div className="group space-y-4 p-6 rounded-3xl transition-colors hover:bg-white/5 border border-transparent hover:border-white/10 text-left">
+                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center border border-white/20 group-hover:bg-white group-hover:text-black transition-all duration-500">
+                     <span className="text-xl font-bold">02</span>
+                  </div>
+                  <h4 className="text-lg font-bold uppercase tracking-tight">Qualité Certifiée</h4>
+                  <p className="text-slate-400 text-sm leading-relaxed">Chaque véhicule passe par un contrôle technique rigoureux avant livraison.</p>
+                </div>
+                <div className="group space-y-4 p-6 rounded-3xl transition-colors hover:bg-white/5 border border-transparent hover:border-white/10 text-left">
+                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center border border-white/20 group-hover:bg-white group-hover:text-black transition-all duration-500">
+                     <span className="text-xl font-bold">03</span>
+                  </div>
+                  <h4 className="text-lg font-bold uppercase tracking-tight">Zéro Surprise</h4>
+                  <p className="text-slate-400 text-sm leading-relaxed">Historique complet et traçabilité totale : vous savez exactement ce que vous achetez, sans zone d'ombre.</p>
+                </div>
+                <div className="group space-y-4 p-6 rounded-3xl transition-colors hover:bg-white/5 border border-transparent hover:border-white/10 text-left">
+                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center border border-white/20 group-hover:bg-white group-hover:text-black transition-all duration-500">
+                     <span className="text-xl font-bold">04</span>
+                  </div>
+                  <h4 className="text-lg font-bold uppercase tracking-tight">Service Clé en Main</h4>
+                  <p className="text-slate-400 text-sm leading-relaxed">On s'occupe de tout ! Du conseil d'expert aux démarches administratives, repartez l'esprit léger.</p>
+                </div>
+              
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* --- NOUVELLE SECTION : NOTRE PROCESSUS D'IMPORTATION --- */}
+<section id="processus" className="py-28 bg-slate-50 relative overflow-hidden">
+  <div className="max-w-7xl mx-auto px-6">
+    <div className="text-center max-w-3xl mx-auto mb-20">
+      <span style={{ color: primaryColor }} className="font-bold text-[11px] uppercase tracking-[0.5em] mb-4 block">De l'Occident à l'Afrique</span>
+      <h2 className="text-5xl md:text-6xl font-black text-slate-900 uppercase leading-none tracking-tighter">
+        Une Logistique <br /> <span className="text-slate-300 italic">Transcontinentale</span>
+      </h2>
+      <p className="mt-8 text-slate-600 font-medium">
+        Basés au <span className="text-slate-900 font-bold">Canada</span>, en <span className="text-slate-900 font-bold">Allemagne</span> et au <span className="text-slate-900 font-bold">Togo</span>, nous supprimons les intermédiaires pour vous offrir le meilleur du marché mondial.
+      </p>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+      {/* Étape 1 */}
+      <div className="relative p-10 bg-white rounded-[2.5rem] shadow-sm border border-slate-100 group hover:shadow-xl transition-all duration-500">
+        <div className="absolute -top-6 left-10 w-14 h-14 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg group-hover:scale-110 transition-transform" style={{ backgroundColor: primaryColor }}>01</div>
+        <h3 className="text-xl font-black text-slate-900 uppercase mb-4 mt-4 tracking-tight">Sourcing International</h3>
+        <p className="text-slate-500 text-sm leading-relaxed">
+          Nos équipes au <strong>Canada</strong> et en <strong>Allemagne</strong> sélectionnent rigoureusement les meilleurs véhicules, camions et tracteurs. Vous achetez à la source, au prix réel du marché international.
+        </p>
+      </div>
+
+      {/* Étape 2 */}
+      <div className="relative p-10 bg-white rounded-[2.5rem] shadow-sm border border-slate-100 group hover:shadow-xl transition-all duration-500">
+        <div className="absolute -top-6 left-10 w-14 h-14 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg group-hover:scale-110 transition-transform" style={{ backgroundColor: primaryColor }}>02</div>
+        <h3 className="text-xl font-black text-slate-900 uppercase mb-4 mt-4 tracking-tight">Prix "Tout Inclus"</h3>
+        <p className="text-slate-500 text-sm leading-relaxed">
+          Aucune surprise à l'arrivée. Le prix affiché sur notre catalogue couvre : <strong>l'achat du véhicule, les formalités administratives export et le transport sécurisé</strong> jusqu'au Port de Lomé.
+        </p>
+      </div>
+
+      {/* Étape 3 */}
+      <div className="relative p-10 bg-white rounded-[2.5rem] shadow-sm border border-slate-100 group hover:shadow-xl transition-all duration-500">
+        <div className="absolute -top-6 left-10 w-14 h-14 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg group-hover:scale-110 transition-transform" style={{ backgroundColor: primaryColor }}>03</div>
+        <h3 className="text-xl font-black text-slate-900 uppercase mb-4 mt-4 tracking-tight">Livraison Garantie</h3>
+        <p className="text-slate-500 text-sm leading-relaxed">
+          Une fois le véhicule embarqué, nous garantissons une livraison au Port de Lomé sous <strong>45 jours maximum</strong>. Notre représentation locale au Togo assure le suivi final de votre acquisition.
+        </p>
+      </div>
+    </div>
+
+    {/* Bannière de réassurance rapide */}
+    <div className="mt-20 p-8 rounded-[2rem] bg-slate-900 text-white flex flex-col md:flex-row items-center justify-between gap-8">
+      <div className="flex items-center gap-6">
+        <div className="w-16 h-16 rounded-full border-2 border-dashed border-white/20 flex items-center justify-center">
+          <span style={{ color: primaryColor }} className="text-2xl">⚓</span>
+        </div>
+        <div>
+          <h4 className="text-lg font-bold uppercase tracking-tight">Destination Finale : Port de Lomé</h4>
+          <p className="text-slate-400 text-xs uppercase tracking-widest">Sécurité - Rapidité - Transparence</p>
+        </div>
+      </div>
+      <Link to="/Catalogue" style={{ backgroundColor: primaryColor }} className="px-10 py-4 rounded-full font-bold uppercase text-[10px] tracking-widest hover:opacity-90 transition-opacity">
+        Voir les arrivages en cours
+      </Link>
+    </div>
+  </div>
+</section>
+
+      {/* --- NOUVEAUTÉS --- */}
+      <section className="py-24 bg-white px-6">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl font-black text-slate-900 uppercase mb-16 italic text-center">Dernières <span style={{ color: primaryColor }}>Opportunités</span></h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {recentVehicles.length > 0 ? (
+              recentVehicles.map((car) => <Card key={car._id} car={car} />)
+            ) : (
+              <p className="col-span-3 text-center text-slate-400 uppercase tracking-widest text-xs">Mise à jour du parc...</p>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Home;
