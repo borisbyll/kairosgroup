@@ -115,11 +115,6 @@ const Catalog = () => {
         </div>
         
         <div className="relative z-10 text-center px-6">
-          <div className="inline-block px-5 py-1.5 border border-white/20 backdrop-blur-md rounded-full mb-8">
-            <span style={{ color: primaryColor }} className="font-bold text-[10px] uppercase tracking-[0.5em] italic">
-              Parc Auto {siteConfig.name}
-            </span>
-          </div>
           <h1 className="relative">
             <span className="absolute -top-16 left-1/2 -translate-x-1/2 text-[100px] md:text-[180px] font-black uppercase text-white/5 select-none leading-none tracking-tighter">
               {siteConfig.name.split(' ')[0]}

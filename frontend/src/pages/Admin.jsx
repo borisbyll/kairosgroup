@@ -387,7 +387,7 @@ const Admin = () => {
                   <option value="Voiture">Voiture</option><option value="Camion">Camion</option><option value="Tracteur">Tracteur</option>
                 </select>
                 <select value={formData.motorisation} onChange={(e) => setFormData({...formData, motorisation: e.target.value})} className="p-2 border-b border-slate-200 text-[13px] outline-none font-bold uppercase">
-                  <option value="Diesel">Diesel</option><option value="Essence">Essence</option><option value="Hybride">Hybride</option><option value="Electrique">Electrique</option>
+                  <option value="Essence">Essence</option><option value="Diesel">Diesel</option><option value="Hybride">Hybride</option><option value="Electrique">Electrique</option>
                 </select>
                 <select value={formData.transmission} onChange={(e) => setFormData({...formData, transmission: e.target.value})} className="p-2 border-b border-slate-200 text-[13px] outline-none font-bold uppercase">
                   <option value="Automatique">Automatique</option><option value="Manuelle">Manuelle</option>

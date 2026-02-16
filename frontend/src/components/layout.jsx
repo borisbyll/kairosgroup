@@ -50,9 +50,9 @@ const Layout = ({ children }) => {
 
   const handleNavbarContactSubmit = (e) => {
     e.preventDefault();
-    const s_id = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const t_id = import.meta.env.VITE_EMAILJS_TEMPLATE_NAVBAR_ID;
-    const p_key = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    const s_id = import.meta.env.VITE_EMAILJS_SERVICE_ID_CONTACT;
+    const t_id = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CONTACT;
+    const p_key = import.meta.env.VITE_EMAILJS_PUBLIC_KEY_CONTACT;
 
     if (!s_id || !t_id || !p_key) {
       console.error("Identifiants manquants !");
@@ -150,8 +150,6 @@ const Layout = ({ children }) => {
                 <input name="user_email" required type="email" placeholder="Votre adresse email" className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-slate-100 transition-all" />
                 <select name="subject" className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-slate-100 transition-all">
                   <option value="Demande d'achat">Demande d'achat</option>
-                  <option value="Expertise véhicule">Expertise véhicule</option>
-                  <option value="Importation / Transit">Importation / Transit</option>
                   <option value="Autre demande">Autre demande</option>
                 </select>
                 <textarea name="message" required rows="4" placeholder="Détaillez votre demande ici..." className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-slate-100 transition-all"></textarea>
