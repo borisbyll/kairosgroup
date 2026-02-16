@@ -13,6 +13,7 @@ const CarDetail = () => {
   const [activeImg, setActiveImg] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [status, setStatus] = useState("");
+  const [isSending, setIsSending] = useState(false); // AJOUT : État pour bloquer l'envoi
   const form = useRef();
   const scrollRef = useRef(null);
   const primaryColor = siteConfig.theme.primaryColor;
@@ -49,8 +50,6 @@ const CarDetail = () => {
 
   // --- SEULE MODIFICATION : FONCTION RETOUR ---
   const handleBack = () => {
-    // navigate(-1) est l'instruction qui demande au navigateur de faire "Précédent"
-    // Cela préserve la page de pagination si elle est gérée par l'URL ou l'historique
     navigate(-1);
   };
 
@@ -77,10 +76,25 @@ const CarDetail = () => {
 
   const sendEmail = (e) => {
     e.preventDefault();
+    setIsSending(true); // Bloque le bouton
     setStatus("Envoi...");
-    emailjs.sendForm(import.meta.env.VITE_EMAILJS_SERVICE_ID_CONTACT, import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CONTACT, form.current, import.meta.env.VITE_EMAILJS_PUBLIC_KEY_CONTACT)
-      .then(() => { setStatus("Envoyé !"); setTimeout(() => { setShowModal(false); setStatus(""); }, 2000); form.current.reset(); })
-      .catch(() => setStatus("Erreur."));
+    
+    emailjs.sendForm(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID_CONTACT, 
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CONTACT, 
+      form.current, 
+      import.meta.env.VITE_EMAILJS_PUBLIC_KEY_CONTACT
+    )
+      .then(() => { 
+        setStatus("Envoyé !"); 
+        setTimeout(() => { 
+          setShowModal(false); 
+          setStatus(""); 
+        }, 2000); 
+        form.current.reset(); 
+      })
+      .catch(() => setStatus("Erreur."))
+      .finally(() => setIsSending(false)); // Débloque après envoi ou erreur
   };
 
   if (!car) return <div className="h-screen flex items-center justify-center bg-slate-900 text-white font-black tracking-widest uppercase italic">Chargement...</div>;
@@ -92,7 +106,7 @@ const CarDetail = () => {
       <section className="bg-slate-950 pt-32 pb-16 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
             
-            {/* BOUTON RETOUR : UTILISATION DE LA FONCTION AJUSTÉE */}
+            {/* BOUTON RETOUR */}
             <button 
               onClick={handleBack} 
               className="flex items-center gap-3 text-slate-500 hover:text-white transition-all font-bold uppercase text-[10px] tracking-[0.3em] mb-10 group"
@@ -144,7 +158,7 @@ const CarDetail = () => {
         </div>
       </section>
 
-      {/* SECTION TECHNIQUE (ACQUIS) */}
+      {/* SECTION TECHNIQUE */}
       <section className="py-20 max-w-7xl mx-auto px-6 grid lg:grid-cols-3 gap-16">
         <div className="lg:col-span-2">
             <h2 className="text-[11px] font-black uppercase tracking-[0.3em] mb-10 flex items-center gap-3">
@@ -178,7 +192,7 @@ const CarDetail = () => {
         </div>
       </section>
 
-      {/* SECTION CARROUSEL (ACQUIS) */}
+      {/* SECTION CARROUSEL */}
       <section className="bg-slate-900 pt-24 pb-16">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
             <div className="max-w-2xl">
@@ -221,18 +235,39 @@ const CarDetail = () => {
         </div>
       </section>
 
-      {/* MODAL EMAILJS (ACQUIS) */}
+      {/* MODAL EMAILJS */}
       {showModal && (
         <div className="fixed inset-0 z-[2000] flex items-center justify-center p-6 bg-black/90 backdrop-blur-md">
           <div className="bg-white w-full max-w-md rounded-[3rem] p-10 relative shadow-2xl">
-            <button onClick={() => setShowModal(false)} className="absolute top-8 right-8 text-slate-300 hover:text-black font-black">✕</button>
+            <button 
+              disabled={isSending}
+              onClick={() => setShowModal(false)} 
+              className="absolute top-8 right-8 text-slate-300 hover:text-black font-black"
+            >
+              ✕
+            </button>
             <h3 className="text-2xl font-black text-slate-900 uppercase italic mb-8">Informations</h3>
             <form ref={form} onSubmit={sendEmail} className="space-y-4">
+              {/* ID ET NOM RÉCUPÉRÉS AUTOMATIQUEMENT */}
+              <input type="hidden" name="car_id" value={car._id} />
               <input type="hidden" name="car_name" value={`${car.marque} ${car.modele}`} />
+              
               <input type="text" name="user_name" placeholder="Nom complet" required className="w-full bg-slate-50 border-none rounded-xl px-6 py-4 outline-none" />
               <input type="email" name="user_email" placeholder="Votre Email" required className="w-full bg-slate-50 border-none rounded-xl px-6 py-4 outline-none" />
               <textarea name="message" placeholder="Votre message..." rows="2" className="w-full bg-slate-50 border-none rounded-xl px-6 py-4 outline-none resize-none"></textarea>
-              <button type="submit" style={{ backgroundColor: primaryColor }} className="w-full text-white font-black py-5 rounded-xl uppercase text-[10px] tracking-widest">Envoyer</button>
+              
+              <button 
+                type="submit" 
+                disabled={isSending}
+                style={{ 
+                  backgroundColor: isSending ? "#cbd5e1" : primaryColor,
+                  cursor: isSending ? "not-allowed" : "pointer" 
+                }} 
+                className="w-full text-white font-black py-5 rounded-xl uppercase text-[10px] tracking-widest transition-all"
+              >
+                {isSending ? "Envoi en cours..." : "Envoyer"}
+              </button>
+              
               {status && <p className="text-center text-[9px] font-black uppercase mt-4 tracking-widest">{status}</p>}
             </form>
           </div>
