@@ -78,7 +78,7 @@ const CarDetail = () => {
   const sendEmail = (e) => {
     e.preventDefault();
     setStatus("Envoi...");
-    emailjs.sendForm(import.meta.env.VITE_EMAILJS_SERVICE_ID, import.meta.env.VITE_EMAILJS_TEMPLATE_ID, form.current, import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
+    emailjs.sendForm(import.meta.env.VITE_EMAILJS_SERVICE_ID_CONTACT, import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CONTACT, form.current, import.meta.env.VITE_EMAILJS_PUBLIC_KEY_CONTACT)
       .then(() => { setStatus("Envoyé !"); setTimeout(() => { setShowModal(false); setStatus(""); }, 2000); form.current.reset(); })
       .catch(() => setStatus("Erreur."));
   };
