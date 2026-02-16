@@ -13,12 +13,11 @@ const CarDetail = () => {
   const [activeImg, setActiveImg] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [status, setStatus] = useState("");
-  const [isSending, setIsSending] = useState(false); // AJOUT : État pour bloquer l'envoi
+  const [isSending, setIsSending] = useState(false); 
   const form = useRef();
   const scrollRef = useRef(null);
   const primaryColor = siteConfig.theme.primaryColor;
 
-  // --- ACQUIS : LOGIQUE ANTI-DOUBLE COMPTAGE ---
   const hasIncremented = useRef(false);
 
   useEffect(() => {
@@ -31,7 +30,6 @@ const CarDetail = () => {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/cars/${id}`);
         setCar(res.data);
         
-        // Incrémentation des vues
         if (!hasIncremented.current) {
           await axios.put(`${import.meta.env.VITE_API_URL}/api/cars/views/${id}`);
           hasIncremented.current = true;
@@ -48,7 +46,6 @@ const CarDetail = () => {
     getData();
   }, [id]);
 
-  // --- SEULE MODIFICATION : FONCTION RETOUR ---
   const handleBack = () => {
     navigate(-1);
   };
@@ -76,7 +73,7 @@ const CarDetail = () => {
 
   const sendEmail = (e) => {
     e.preventDefault();
-    setIsSending(true); // Bloque le bouton
+    setIsSending(true);
     setStatus("Envoi...");
     
     emailjs.sendForm(
@@ -94,7 +91,7 @@ const CarDetail = () => {
         form.current.reset(); 
       })
       .catch(() => setStatus("Erreur."))
-      .finally(() => setIsSending(false)); // Débloque après envoi ou erreur
+      .finally(() => setIsSending(false));
   };
 
   if (!car) return <div className="h-screen flex items-center justify-center bg-slate-900 text-white font-black tracking-widest uppercase italic">Chargement...</div>;
@@ -106,7 +103,6 @@ const CarDetail = () => {
       <section className="bg-slate-950 pt-32 pb-16 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
             
-            {/* BOUTON RETOUR */}
             <button 
               onClick={handleBack} 
               className="flex items-center gap-3 text-slate-500 hover:text-white transition-all font-bold uppercase text-[10px] tracking-[0.3em] mb-10 group"
@@ -119,7 +115,9 @@ const CarDetail = () => {
             <div className="lg:col-span-5 space-y-8">
               <div>
                 <span style={{ color: primaryColor }} className="text-[10px] font-black uppercase tracking-[0.4em] mb-4 block italic">Exclusivité Emile Auto</span>
+                {/* RESTAURATION : MARQUE + MODÈLE */}
                 <h1 className="text-4xl md:text-5xl font-black text-white uppercase italic leading-tight tracking-tighter mb-6">
+                  <span style={{ color: primaryColor }} className="block text-2xl mb-2">{car.marque}</span>
                   {car.modele}
                 </h1>
                 <div className="px-6 py-2 bg-white/5 border border-white/10 rounded-full inline-block text-white">
@@ -248,7 +246,6 @@ const CarDetail = () => {
             </button>
             <h3 className="text-2xl font-black text-slate-900 uppercase italic mb-8">Informations</h3>
             <form ref={form} onSubmit={sendEmail} className="space-y-4">
-              {/* ID ET NOM RÉCUPÉRÉS AUTOMATIQUEMENT */}
               <input type="hidden" name="car_id" value={car._id} />
               <input type="hidden" name="car_name" value={`${car.marque} ${car.modele}`} />
               
