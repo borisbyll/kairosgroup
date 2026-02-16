@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
+
 // IMPORT DES MODÈLES (Acquis)
 const Car = require('./models/Car');
 const Notification = require('./models/Notification');
@@ -14,11 +15,15 @@ const notificationRoutes = require('./routes/NotificationRoute');
 const app = express();
 
 // --- MIDDLEWARES ---
+const cors = require('cors');
+
+// ... après app = express() ...
+
 app.use(cors({
-  origin:['http://localhost:5173', 'https://emile-auto.vercel.app'],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  origin: 'https://kairosgroup.vercel.app', // Ton URL exacte de Vercel
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
+
 }));
 app.use(express.json());
 
