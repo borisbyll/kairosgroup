@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors'); // Déclaré UNE SEULE FOIS ici
+const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
 // IMPORT DES MODÈLES
@@ -15,7 +15,6 @@ const app = express();
 
 // --- MIDDLEWARES ---
 app.use(cors({
-  // Autorise ton site Vercel ET ton ordinateur local pour les tests
   origin: ['https://kairosgroup.vercel.app', 'http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
@@ -23,7 +22,6 @@ app.use(cors({
 app.use(express.json());
 
 // --- CONNEXION MONGODB ---
-// Vérifie bien que la variable s'appelle MONGODB_URI dans Render
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log("✅ MongoDB Connecté pour Kairos Group"))
   .catch(err => console.log("❌ Erreur MongoDB:", err));
@@ -42,9 +40,9 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// --- ROUTES ---
+// --- ROUTES API ---
 
-// Login
+// 1. AUTHENTIFICATION
 app.post('/api/login', (req, res) => {
   const identifier = req.body.email || req.body.username;
   const password = req.body.password;
@@ -56,10 +54,21 @@ app.post('/api/login', (req, res) => {
   return res.status(401).json({ success: false, message: "Identifiants invalides" });
 });
 
-// Notifications
+// 2. GESTION DES NOTIFICATIONS
 app.use('/api/notifications', notificationRoutes);
 
-// Cars
+app.delete('/api/notifications/clear-all', authenticateToken, async (req, res) => {
+  try {
+    await Notification.deleteMany({});
+    res.status(200).json({ message: "Historique vidé" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 3. GESTION DES VOITURES (CARS)
+
+// PUBLIQUE : Récupérer toutes les voitures
 app.get('/api/cars', async (req, res) => {
   try {
     const cars = await Car.find().sort({ createdAt: -1 });
@@ -67,10 +76,50 @@ app.get('/api/cars', async (req, res) => {
   } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
-// ... Garde le reste de tes routes (POST, PUT, DELETE) telles quelles ...
+// PUBLIQUE : Récupérer une voiture par ID
+app.get('/api/cars/:id', async (req, res) => {
+  try {
+    const car = await Car.findById(req.params.id);
+    if (!car) return res.status(404).json({ message: "Véhicule introuvable" });
+    res.json(car);
+  } catch (err) { res.status(500).json({ message: "Format ID invalide" }); }
+});
+
+// PUBLIQUE : Incrémenter les vues
+app.put('/api/cars/views/:id', async (req, res) => {
+  try {
+    const car = await Car.findByIdAndUpdate(req.params.id, { $inc: { views: 1 } }, { new: true });
+    res.json({ views: car.views });
+  } catch (err) { res.status(500).json({ message: "Erreur vues" }); }
+});
+
+// PROTÉGÉE : Ajouter une voiture (Celle qui causait le 404)
+app.post('/api/cars/add', authenticateToken, async (req, res) => {
+  try {
+    const newCar = new Car(req.body);
+    await newCar.save();
+    res.status(201).json(newCar);
+  } catch (err) { res.status(400).json({ message: err.message }); }
+});
+
+// PROTÉGÉE : Modifier une voiture
+app.put('/api/cars/:id', authenticateToken, async (req, res) => {
+  try {
+    const updatedCar = await Car.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updatedCar);
+  } catch (err) { res.status(400).json({ message: err.message }); }
+});
+
+// PROTÉGÉE : Supprimer une voiture
+app.delete('/api/cars/:id', authenticateToken, async (req, res) => {
+  try {
+    await Car.findByIdAndDelete(req.params.id);
+    res.json({ message: "Véhicule supprimé avec succès" });
+  } catch (err) { res.status(500).json({ message: err.message }); }
+});
 
 // --- LANCEMENT DU SERVEUR ---
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Serveur Kairos Group lancé sur le port ${PORT}`);
+  console.log(`🚀 Serveur Emile Auto lancé sur le port ${PORT}`);
 });
