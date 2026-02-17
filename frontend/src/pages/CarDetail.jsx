@@ -13,7 +13,7 @@ const CarDetail = () => {
   const [activeImg, setActiveImg] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [status, setStatus] = useState("");
-  const [isSending, setIsSending] = useState(false); 
+  const [isSending, setIsSending] = useState(false);
   const form = useRef();
   const scrollRef = useRef(null);
   const primaryColor = siteConfig.theme.primaryColor;
@@ -38,7 +38,7 @@ const CarDetail = () => {
         const all = await axios.get(`${import.meta.env.VITE_API_URL}/api/cars`);
         setOthers(all.data.filter(c => c._id !== id));
       } catch (e) { 
-        console.error("Erreur chargement:", e); 
+        console.error("Erreur chargement données:", e); 
       }
     };
 
@@ -75,13 +75,14 @@ const CarDetail = () => {
     e.preventDefault();
     setIsSending(true);
     setStatus("Envoi...");
-    
-    emailjs.sendForm(
-      import.meta.env.VITE_EMAILJS_SERVICE_ID, 
-      import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CONTACT, 
-      form.current, 
-      import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-    )
+
+    // Utilisation des variables d'environnement
+    // VERIFIE BIEN QUE CES NOMS CORRESPONDENT A TES VARIABLES SUR VERCEL
+    const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID_CONTACT;
+    const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CONTACT;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY_CONTACT;
+
+    emailjs.sendForm(serviceID, templateID, form.current, publicKey)
       .then(() => { 
         setStatus("Envoyé !"); 
         setTimeout(() => { 
@@ -90,7 +91,11 @@ const CarDetail = () => {
         }, 2000); 
         form.current.reset(); 
       })
-      .catch(() => setStatus("Erreur."))
+      .catch((error) => {
+        // AJOUT : Affiche l'erreur réelle dans la console pour débugger
+        console.error("Détails de l'erreur EmailJS:", error);
+        setStatus("Erreur. Vérifiez la console.");
+      })
       .finally(() => setIsSending(false));
   };
 
@@ -102,7 +107,6 @@ const CarDetail = () => {
       {/* SECTION HERO */}
       <section className="bg-slate-950 pt-32 pb-16 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-            
             <button 
               onClick={handleBack} 
               className="flex items-center gap-3 text-slate-500 hover:text-white transition-all font-bold uppercase text-[10px] tracking-[0.3em] mb-10 group"
@@ -114,8 +118,7 @@ const CarDetail = () => {
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5 space-y-8">
               <div>
-                <span style={{ color: primaryColor }} className="text-[10px] font-black uppercase tracking-[0.4em] mb-4 block italic">Exclusivité Kairos group</span>
-                {/* RESTAURATION : MARQUE + MODÈLE */}
+                <span style={{ color: primaryColor }} className="text-[10px] font-black uppercase tracking-[0.4em] mb-4 block italic">Exclusivité Emile Auto</span>
                 <h1 className="text-4xl md:text-5xl font-black text-white uppercase italic leading-tight tracking-tighter mb-6">
                   <span style={{ color: primaryColor }} className="block text-2xl mb-2">{car.marque}</span>
                   {car.modele}
@@ -238,14 +241,15 @@ const CarDetail = () => {
         <div className="fixed inset-0 z-[2000] flex items-center justify-center p-6 bg-black/90 backdrop-blur-md">
           <div className="bg-white w-full max-w-md rounded-[3rem] p-10 relative shadow-2xl">
             <button 
-              disabled={isSending}
               onClick={() => setShowModal(false)} 
               className="absolute top-8 right-8 text-slate-300 hover:text-black font-black"
+              disabled={isSending}
             >
               ✕
             </button>
             <h3 className="text-2xl font-black text-slate-900 uppercase italic mb-8">Informations</h3>
             <form ref={form} onSubmit={sendEmail} className="space-y-4">
+              {/* ID ET NOM RECUPERES AUTOMATIQUEMENT */}
               <input type="hidden" name="car_id" value={car._id} />
               <input type="hidden" name="car_name" value={`${car.marque} ${car.modele}`} />
               
@@ -262,7 +266,7 @@ const CarDetail = () => {
                 }} 
                 className="w-full text-white font-black py-5 rounded-xl uppercase text-[10px] tracking-widest transition-all"
               >
-                {isSending ? "Envoi en cours..." : "Envoyer"}
+                {isSending ? "Envoi..." : "Envoyer"}
               </button>
               
               {status && <p className="text-center text-[9px] font-black uppercase mt-4 tracking-widest">{status}</p>}
