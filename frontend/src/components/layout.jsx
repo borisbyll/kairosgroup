@@ -62,7 +62,7 @@ const Layout = ({ children }) => {
     emailjs.sendForm(s_id, t_id, e.target, p_key)
       .then(() => {
         alert("Votre demande a été envoyée avec succès à Kairos group !");
-        setIsModalOpen(false);
+        setIsModalOpen(true);
       }, (error) => {
         console.error("Erreur EmailJS:", error);
         alert("Une erreur est survenue.");
