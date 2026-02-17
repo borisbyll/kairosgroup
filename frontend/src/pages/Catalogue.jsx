@@ -94,7 +94,7 @@ const Catalog = () => {
       
       {/* --- HEADER CATALOGUE --- */}
       <section className="bg-slate-950 pt-32 pb-16 md:pt-40 md:pb-24 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-white/5 rounded-full blur-[120px] -mr-32 -mt-32"></div>
+        <div className="absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-white/5 rounded-full blur-[80px] md:blur-[120px] -mr-32 -mt-32"></div>
         <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10 text-center md:text-left">
           <span style={{ color: primaryColor }} className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] md:tracking-[0.6em] mb-4 block">
             Stock Disponible
@@ -102,7 +102,7 @@ const Catalog = () => {
           <h1 className="text-4xl md:text-8xl font-black text-white uppercase italic leading-none tracking-tighter">
             Le <span style={{ color: primaryColor }}>Catalogue</span>
           </h1>
-          <p className="text-slate-500 text-[10px] md:text-xs font-bold uppercase mt-6 tracking-[0.3em]">
+          <p className="text-slate-500 text-[9px] md:text-xs font-bold uppercase mt-6 tracking-[0.3em]">
             {filteredVehicles.length} Véhicules d'exception trouvés
           </p>
         </div>
@@ -113,14 +113,13 @@ const Catalog = () => {
         <div className="relative -mt-8 md:-mt-12 mb-16 md:mb-20 z-30">
           <div className="bg-white shadow-[0_20px_60px_rgba(0,0,0,0.1)] rounded-[2rem] md:rounded-[3rem] p-4 md:p-8 border border-slate-50">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex items-center gap-6 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 no-scrollbar">
+              <div className="flex items-center gap-4 md:gap-6 overflow-x-auto w-full md:w-auto pb-4 md:pb-0 no-scrollbar">
                 {['Tous', 'SUV', 'Berline', 'Sport', 'Camion', 'Agricole'].map((type) => (
                   <button
                     key={type}
                     onClick={() => {
                         const newType = type === 'Tous' ? '' : type;
                         setFilters(prev => ({ ...prev, type: newType }));
-                        // Application immédiate pour les onglets
                         let res = vehicles;
                         if (newType) res = res.filter(v => v.type === newType);
                         setFilteredVehicles(res);
@@ -152,7 +151,7 @@ const Catalog = () => {
             {/* PANEL DE FILTRES DÉROULANT */}
             <form 
               onSubmit={applyFilters}
-              className={`overflow-hidden transition-all duration-700 ease-in-out ${isFilterVisible ? 'max-h-[600px] mt-8 md:mt-12 opacity-100' : 'max-h-0 opacity-0'}`}
+              className={`overflow-hidden transition-all duration-700 ease-in-out ${isFilterVisible ? 'max-h-[800px] mt-8 md:mt-12 opacity-100' : 'max-h-0 opacity-0'}`}
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 pt-6 border-t border-slate-100">
                 <div className="space-y-2">
