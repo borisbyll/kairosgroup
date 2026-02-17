@@ -118,8 +118,8 @@ const CarDetail = () => {
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5 space-y-8">
               <div>
-                <span style={{ color: primaryColor }} className="text-[10px] font-black uppercase tracking-[0.4em] mb-4 block italic">Exclusivité Emile Auto</span>
-                <h1 className="text-4xl md:text-5xl font-black text-white uppercase italic leading-tight tracking-tighter mb-6">
+                <span style={{ color: primaryColor }} className="text-[10px] font-black uppercase tracking-[0.4em] mb-4 block italic">Exclusivité <strong translate="no">Kairos group</strong></span>
+                <h1 translate="no"className="text-4xl md:text-5xl font-black text-white uppercase italic leading-tight tracking-tighter mb-6">
                   <span style={{ color: primaryColor }} className="block text-2xl mb-2">{car.marque}</span>
                   {car.modele}
                 </h1>

@@ -84,7 +84,7 @@ const Layout = ({ children }) => {
         <div className="bg-white/95 backdrop-blur-md border border-slate-100 rounded-[2rem] px-8 py-4 shadow-xl">
           <div className="flex justify-between items-center">
             
-            <Link to="/" className="flex items-center group">
+            <Link to="/" translate="no" className="flex items-center group">
               <img src={siteConfig.logo} alt={siteConfig.name} className="h-9 w-auto group-hover:scale-105 transition-transform duration-300" />
             </Link>
 

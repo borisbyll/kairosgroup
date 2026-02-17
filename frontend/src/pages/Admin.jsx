@@ -256,7 +256,7 @@ const Admin = () => {
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} 
         md:translate-x-0 md:relative md:flex
       `}>
-        <div className="p-8 flex flex-col items-center border-b border-slate-50 hidden md:flex">
+        <div translate="no" className="p-8 flex flex-col items-center border-b border-slate-50 hidden md:flex">
           <img src={siteConfig.logo} alt={siteConfig.name} className="w-42 h-auto mb-4" />
           <h1 className="text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase">Administration</h1>
         </div>

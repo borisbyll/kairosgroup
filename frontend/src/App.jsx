@@ -40,7 +40,7 @@ const FloatingWhatsApp = () => {
       console.error("Erreur notification:", err);
     } finally {
       // Ton lien WhatsApp spécifique
-      window.open(`https://wa.me/15068384859?text=${encodeURIComponent("Bonjour kairos group, j'aurais besoin d'une assistance concernant un véhicule.")}`, "_blank");
+      window.open(`https://wa.me/15068384859?text=${encodeURIComponent("Bonjour kairos group, je suis interessé par ce véhicule: .")}`, "_blank");
     }
   };
 

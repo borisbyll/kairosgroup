@@ -116,7 +116,7 @@ const Catalog = () => {
         
         <div className="relative z-10 text-center px-6">
           <h1 className="relative">
-            <span className="absolute -top-16 left-1/2 -translate-x-1/2 text-[100px] md:text-[180px] font-black uppercase text-white/5 select-none leading-none tracking-tighter">
+            <span translate ="no" className="absolute -top-16 left-1/2 -translate-x-1/2 text-[100px] md:text-[180px] font-black uppercase text-white/5 select-none leading-none tracking-tighter">
               {siteConfig.name.split(' ')[0]}
             </span>
             <div className="flex flex-col items-center">
@@ -185,7 +185,7 @@ const Catalog = () => {
                   value={tempFilters.marque}
                   onChange={(e) => setTempFilters({...tempFilters, marque: e.target.value, modele: 'Tous'})}
                 >
-                  {marquesDispo.map(m => <option key={m} value={m}>{m}</option>)}
+                  {marquesDispo.map(m => <option key={m} value={m} translate="no" className="notranslate">{m}</option>)}
                 </select>
               </div>
 
@@ -196,7 +196,7 @@ const Catalog = () => {
                   value={tempFilters.modele}
                   onChange={(e) => setTempFilters({...tempFilters, modele: e.target.value})}
                 >
-                  {modelesDispo.map(mod => <option key={mod} value={mod}>{mod}</option>)}
+                  {modelesDispo.map(mod => <option key={mod} value={mod} translate="no" className="notranslate">{mod}</option>)}
                 </select>
               </div>
 

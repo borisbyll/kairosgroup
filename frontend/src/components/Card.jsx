@@ -15,7 +15,7 @@ const Card = ({ car }) => {
       className="group relative bg-transparent cursor-pointer"
     >
       {/* IMAGE CONTAINER : Perspective et Zoom */}
-      <div className="relative h-[420px] w-full overflow-hidden rounded-[2.5rem] shadow-2xl transition-all duration-700 group-hover:rounded-[1.5rem]">
+      <div translate="no" className="relative h-[420px] w-full overflow-hidden rounded-[2.5rem] shadow-2xl transition-all duration-700 group-hover:rounded-[1.5rem]">
         <img 
           src={displayImage} 
           alt={`${car.marque} ${car.modele}`}
@@ -41,10 +41,10 @@ const Card = ({ car }) => {
       <div className="relative -mt-24 mx-6 bg-white p-7 rounded-[2.2rem] shadow-2xl border border-slate-50 transition-all duration-500 group-hover:-mt-28 z-20">
         <div className="flex justify-between items-start mb-5">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-slate-400 font-bold mb-1">
+            <p translate="no" className="text-[10px] uppercase tracking-[0.3em] text-slate-400 font-bold mb-1">
               {car.marque}
             </p>
-            <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter leading-none">
+            <h3 translate="no" className="text-xl font-black text-slate-900 uppercase tracking-tighter leading-none">
               {car.modele}
             </h3>
           </div>
