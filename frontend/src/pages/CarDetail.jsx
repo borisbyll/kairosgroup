@@ -78,9 +78,9 @@ const CarDetail = () => {
 
     // Utilisation des variables d'environnement
     // VERIFIE BIEN QUE CES NOMS CORRESPONDENT A TES VARIABLES SUR VERCEL
-    const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID_CONTACT;
-    const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CONTACT;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY_CONTACT;
+    const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
     emailjs.sendForm(serviceID, templateID, form.current, publicKey)
       .then(() => { 
