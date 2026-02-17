@@ -74,13 +74,19 @@ const Admin = () => {
   };
 
   const confirmClearHistory = async () => {
-    try {
-      await axios.delete(`${API_URL}/api/notifications/clear-all`, getAuthHeader());
-      setNotifications([]);
-      setUnreadCount(0);
-      setShowClearHistoryModal(false);
-    } catch (err) { console.error("Erreur suppression notifications:", err); }
-  };
+  try {
+    // Correction ici : on enveloppe getAuthHeader() dans un objet { headers: ... }
+    await axios.delete(`${API_URL}/api/notifications/clear-all`, {
+      headers: getAuthHeader()
+    });
+    
+    setNotifications([]);
+    setUnreadCount(0);
+    setShowClearHistoryModal(false);
+  } catch (err) { 
+    console.error("Erreur suppression notifications:", err); 
+  }
+};
 
     useEffect(() => { 
     fetchVehicles(); // Récupère les véhicules ET leurs vues
@@ -112,18 +118,28 @@ const Admin = () => {
     }
   };
 
-  const confirmBulkDelete = async () => {
-    try {
-      for (const id of selectedIds) {
-        await axios.delete(`${API_URL}/api/cars/${id}`, getAuthHeader());
-      }
-      setVehicles(vehicles.filter(v => !selectedIds.includes(v._id)));
-      setSelectedIds([]);
-      setShowBulkDeleteModal(false);
-    } catch (err) {
-      alert("Erreur lors de la suppression groupée");
-    }
-  };
+const confirmBulkDelete = async () => {
+  try {
+    // 1. On prépare toutes les promesses de suppression avec la bonne syntaxe { headers }
+    const deletePromises = selectedIds.map(id => 
+      axios.delete(`${API_URL}/api/cars/${id}`, {
+        headers: getAuthHeader() // CORRECTION SYNTAXE ICI
+      })
+    );
+
+    // 2. On lance toutes les suppressions en parallèle (plus rapide)
+    await Promise.all(deletePromises);
+
+    // 3. Mise à jour de l'interface
+    setVehicles(vehicles.filter(v => !selectedIds.includes(v._id)));
+    setSelectedIds([]);
+    setShowBulkDeleteModal(false);
+    
+  } catch (err) {
+    console.error("Erreur suppression groupée:", err);
+    alert("Erreur lors de la suppression groupée. Vérifiez vos droits admin.");
+  }
+};
 
   const totalValue = vehicles.reduce((acc, v) => acc + (Number(v.prix) || 0), 0);
   const totalViews = vehicles.reduce((acc, v) => acc + (Number(v.views) || 0), 0);
@@ -214,14 +230,19 @@ const Admin = () => {
   };
 
   const confirmDelete = async () => {
-    try {
-      await axios.delete(`${API_URL}/api/cars/${showDeleteModal.id}`, getAuthHeader());
-      setVehicles(vehicles.filter(v => v._id !== showDeleteModal.id));
-      setShowDeleteModal({ show: false, id: null });
-    } catch (err) { 
-      if(err.response?.status === 401) navigate('/login');
-      console.error(err); 
-    }
+  try {
+    // CORRECTION : on place getAuthHeader() à l'intérieur d'un objet { headers: ... }
+    await axios.delete(`${API_URL}/api/cars/${showDeleteModal.id}`, {
+      headers: getAuthHeader() 
+    });
+
+    setVehicles(vehicles.filter(v => v._id !== showDeleteModal.id));
+    setShowDeleteModal({ show: false, id: null });
+  } catch (err) { 
+    if(err.response?.status === 401) navigate('/login');
+    console.error("Erreur suppression voiture:", err); 
+  }
+
   };
 
   const Icons = {
@@ -515,7 +536,7 @@ const Admin = () => {
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl">
             <h3 className="text-md font-bold text-slate-900 uppercase mb-2">Vider l'historique ?</h3>
-            <p className="text-[11px] text-slate-500 mb-8 font-medium">Cette action supprimera toutes les alertes WhatsApp pour {siteConfig.name}.</p>
+            <p className="text-[11px] text-slate-500 mb-8 font-medium">Cette action supprimera toutes les alertes WhatsApp pour <strong translate="no"> {siteConfig.name}.</strong></p>
             <div className="flex gap-3">
               <button onClick={() => setShowClearHistoryModal(false)} className="flex-1 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold text-[10px] uppercase">Annuler</button>
               <button onClick={confirmClearHistory} className="flex-1 py-3 bg-red-600 text-white rounded-xl font-bold text-[10px] uppercase">Vider tout</button>

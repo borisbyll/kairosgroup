@@ -14,12 +14,24 @@ const notificationRoutes = require('./routes/NotificationRoute');
 const app = express();
 
 // --- MIDDLEWARES ---
+app.use(express.json());
+
+const allowedOrigins = [
+  process.env.FRONTEND_URL, // Ta variable Render
+  'http://localhost:5173'   // Pour que tu puisses continuer à travailler en local
+];
+
 app.use(cors({
-  origin: ['https://kairosgroup.vercel.app', 'http://localhost:5173'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Bloqué par CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // ABSOLUMENT INCLURE DELETE
   credentials: true
 }));
-app.use(express.json());
 
 // --- CONNEXION MONGODB ---
 mongoose.connect(process.env.MONGODB_URI)
@@ -55,7 +67,7 @@ app.post('/api/login', (req, res) => {
 });
 
 // 2. GESTION DES NOTIFICATIONS
-app.use('/api/notifications', notificationRoutes);
+
 
 app.delete('/api/notifications/clear-all', authenticateToken, async (req, res) => {
   try {
@@ -65,6 +77,7 @@ app.delete('/api/notifications/clear-all', authenticateToken, async (req, res) =
     res.status(500).json({ error: err.message });
   }
 });
+app.use('/api/notifications', notificationRoutes);
 
 // 3. GESTION DES VOITURES (CARS)
 
