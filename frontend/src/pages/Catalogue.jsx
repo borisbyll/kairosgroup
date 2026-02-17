@@ -120,7 +120,7 @@ const Catalog = () => {
               {siteConfig.name.split(' ')[0]}
             </span>
             <div className="flex flex-col items-center">
-              <span className="text-5xl md:text-8xl font-black text-white uppercase italic leading-none tracking-tighter">
+              <span className="text-4xl md:text-8xl font-black text-white uppercase italic leading-none tracking-tighter">
                 Catalogue <br /> 
                 <span style={{ color: primaryColor }}>Exclusif</span>
               </span>
