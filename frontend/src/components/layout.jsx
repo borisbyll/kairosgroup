@@ -63,11 +63,10 @@ const Layout = ({ children }) => {
 
     emailjs.sendForm(s_id, t_id, e.target, p_key)
       .then(() => {
-        alert("Votre demande a été envoyée avec succès à Kairos group !");
-        setIsModalOpen(false);
+        setSentStatus('success')
       }, (error) => {
         console.error("Erreur EmailJS:", error);
-        alert("Une erreur est survenue.");
+        setSentStatus('error');
       });
   };
 
@@ -152,7 +151,7 @@ const Layout = ({ children }) => {
         {sentStatus === 'success' ? (
           /* --- MESSAGE DE SUCCÈS PROFESSIONNEL --- */
           <div className="text-center py-10 animate-fade-in">
-            <div className="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">✓</div>
+            <div className="w-12 h-12 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">✓</div>
             <h3 className="text-xl font-bold text-slate-900 uppercase mb-2">Message envoyé !</h3>
             <p className="text-slate-500 text-sm mb-8">Notre équipe vous recontactera dans les plus brefs délais.</p>
             <button 
