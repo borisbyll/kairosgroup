@@ -51,7 +51,7 @@ const Layout = ({ children }) => {
   const handleNavbarContactSubmit = (e) => {
     e.preventDefault();
     const s_id = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const t_id = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const t_id = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CONTACT;
     const p_key = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
     if (!s_id || !t_id || !p_key) {
