@@ -25,7 +25,7 @@ const Card = ({ car }) => {
         {/* PRIX FLOTTANT : En haut à droite */}
         <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-md px-5 py-2 rounded-2xl shadow-xl z-10 border border-white/20">
            <span className="text-slate-900 font-black text-lg">
-             {Number(car.prix).toLocaleString()} €
+             {Number(car.prix).toLocaleString()} FCFA
            </span>
         </div>
 

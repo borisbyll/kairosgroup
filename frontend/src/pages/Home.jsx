@@ -93,7 +93,7 @@ const Home = () => {
 
       {/* --- SECTION EXPERTISES --- */}
       <section id="expertises" className="py-24 px-6 bg-white relative z-20">
-        <div className="max-w-4xl mx-auto text-center mb-20">
+        <div className="max-w-4xl mx-auto text-center mb-16">
           <span style={{ color: primaryColor }} className="font-bold text-[11px] uppercase tracking-[0.5em] mb-4 block animate-fade-up">Notre Savoir-Faire</span>
           <h2 className="text-5xl md:text-6xl font-black text-slate-900 uppercase leading-none tracking-tighter">
             Une Expertise <span className="text-slate-300 italic">Multisectorielle</span>
@@ -152,7 +152,7 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="relative group">
               <div className="relative z-10 overflow-hidden rounded-[3rem] border border-white/10 shadow-2xl">
-                <img src="/images/cool.jpg" className="w-full h-[600px] object-cover transition-transform duration-[2s] group-hover:scale-110" alt="Emile Auto Prestige" />
+                <img src="/images/cool.jpg" className="w-full h-[600px] object-cover transition-transform duration-[2s] group-hover:scale-110" alt="Kairos group Prestige" />
                 <div className="absolute top-10 right-10 bg-white/10 backdrop-blur-xl border border-white/20 p-6 rounded-3xl text-center">
                   <p className="text-4xl font-black italic mb-0" style={{ color: primaryColor }}>Parc</p>
                   <p className="text-[10px] uppercase tracking-widest font-bold">Premium</p>

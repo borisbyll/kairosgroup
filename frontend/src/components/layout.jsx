@@ -50,9 +50,9 @@ const Layout = ({ children }) => {
 
   const handleNavbarContactSubmit = (e) => {
     e.preventDefault();
-    const s_id = import.meta.env.VITE_EMAILJS_SERVICE_ID_CONTACT;
-    const t_id = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CONTACT;
-    const p_key = import.meta.env.VITE_EMAILJS_PUBLIC_KEY_CONTACT;
+    const s_id = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const t_id = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const p_key = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
     if (!s_id || !t_id || !p_key) {
       console.error("Identifiants manquants !");
@@ -61,7 +61,7 @@ const Layout = ({ children }) => {
 
     emailjs.sendForm(s_id, t_id, e.target, p_key)
       .then(() => {
-        alert("Votre demande a été envoyée avec succès à Emile Auto !");
+        alert("Votre demande a été envoyée avec succès à Kairos group !");
         setIsModalOpen(false);
       }, (error) => {
         console.error("Erreur EmailJS:", error);
@@ -129,7 +129,7 @@ const Layout = ({ children }) => {
              <Link to="/" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black text-slate-900 uppercase">Accueil</Link>
              <Link to="/Catalogue" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black text-slate-900 uppercase">Catalogue</Link>
              <a href="/#expertises" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black text-slate-900 uppercase">Expertises</a>
-             <button onClick={() => { setIsMenuOpen(false); setIsModalOpen(true); }} className="text-3xl font-black uppercase" style={{ color: primaryColor }}>Contact</button>
+             <button onClick={() => { setIsMenuOpen(false); setIsModalOpen(true); }} className="text-3xl font-black uppercase" style={{ color: primaryColor }}>Prendre Contact</button>
           </div>
         )}
       </nav>
