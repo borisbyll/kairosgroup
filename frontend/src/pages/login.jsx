@@ -22,7 +22,7 @@ const Login = () => {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/login`, credentials);
 
       if (response.data.token) {
-        localStorage.setItem('adminToken', response.data.token);
+        localStorage.setItem('token', response.data.token);
         navigate('/admin');
       }
     } catch (err) {
@@ -41,12 +41,12 @@ const Login = () => {
       <div className="max-w-md w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-10">
         
         <div className="text-center mb-10">
-          <img 
+          <img translate="no" 
             src={siteConfig.logo} 
             alt={siteConfig.name} 
             className="h-16 w-auto mx-auto mb-4" 
           />
-          <h1 className="text-xl font-bold tracking-[0.2em] text-slate-900 uppercase">
+          <h1 translate="no" className="text-xl font-bold tracking-[0.2em] text-slate-900 uppercase">
             {siteConfig.name.split(' ')[0]} <span style={{ color: primaryColor }}>{siteConfig.name.split(' ')[1] || ''}</span>
           </h1>
           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2 italic">Accès Restreint</p>

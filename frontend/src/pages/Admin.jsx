@@ -36,7 +36,7 @@ const Admin = () => {
   const API_URL = import.meta.env.VITE_API_URL;
 
   const handleLogout = () => {
-    localStorage.removeItem('adminToken');
+    localStorage.removeItem('token');
     navigate('/login');
   };
 
@@ -65,14 +65,19 @@ const Admin = () => {
     } catch (err) { console.error("Erreur Notifications:", err); }
   };
 
-  const handleOpenAlerts = async () => {
-    setActiveMenu('alerts');
-    setIsMobileMenuOpen(false); 
-    try {
-      await axios.put(`${API_URL}/api/notifications/mark-as-read`, {}, getAuthHeader());
-      setUnreadCount(0);
-    } catch (err) { console.error("Erreur marquage lecture:", err); }
-  };
+ const handleOpenAlerts = async () => {
+  setActiveMenu('alerts');
+  setIsMobileMenuOpen(false); 
+  try {
+    // Le 2ème argument est le corps {}, le 3ème est la config { headers }
+    await axios.put(`${API_URL}/api/notifications/mark-as-read`, {}, {
+      headers: getAuthHeader()
+    });
+    setUnreadCount(0);
+  } catch (err) { 
+    console.error("Erreur marquage lecture:", err); 
+  }
+};
 
   const confirmClearHistory = async () => {
   try {
