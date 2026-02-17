@@ -41,9 +41,10 @@ const Admin = () => {
   };
 
   const getAuthHeader = () => {
-    const token = localStorage.getItem('adminToken');
-    return { headers: { Authorization: `Bearer ${token}` } };
-  };
+  const token = localStorage.getItem('token'); // Assure-toi que c'est le bon nom de clé
+  if (!token) return {};
+  return { 'Authorization': `Bearer ${token}` };
+};
 
   const fetchVehicles = async () => {
     try {
