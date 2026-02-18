@@ -18,7 +18,7 @@ const AdminBlog = () => {
 
   // RÉCUPÉRATION DES VARIABLES D'ENVIRONNEMENT
   const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-  const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET_BLOG;
+  const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
   const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
   const API_URL = `${import.meta.env.VITE_API_URL}/api/posts`;
 
