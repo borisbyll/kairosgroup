@@ -455,7 +455,23 @@ const confirmBulkDelete = async () => {
               <div className="w-full space-y-4">
                 <div className="flex flex-wrap gap-2">
                   {['Tous', 'Voiture', 'Camion', 'Tracteur'].map((cat) => (
-                    <button key={cat} onClick={() => setInventoryFilter(cat)} className={`text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-lg ${inventoryFilter === cat ? 'bg-slate-900 text-white' : 'text-slate-600 hover:bg-slate-100'}`}>{cat === 'Tous' ? 'Tout' : cat + 's'}</button>
+                    <button 
+                        key={cat} 
+                        onClick={() => setInventoryFilter(cat)} 
+                        className={`text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-lg transition-all ${
+                          inventoryFilter === cat 
+                            ? 'bg-slate-900 text-white shadow-md' 
+                            : 'text-slate-600 hover:bg-slate-100'
+                        }`}
+                      >
+                        {/* Affichage du nom (avec gestion du pluriel) */}
+                        {cat === 'Tous' ? 'Tout' : cat + 's'}
+                        
+                        {/* Affichage du compteur avec un style plus discret */}
+                        <span className={`ml-2 ${inventoryFilter === cat ? 'opacity-70' : 'opacity-40'}`}>
+                          ({count})
+                        </span>
+                      </button>
                   ))}
                 </div>
                 {selectedIds.length > 0 && (
