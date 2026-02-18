@@ -101,6 +101,11 @@ const Layout = ({ children }) => {
                 Expertises
                 <span className="absolute -bottom-2 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-300" style={{ backgroundColor: primaryColor }}></span>
               </a>
+             <a href="/Blog" className="relative group text-slate-900">
+                Notre Blog
+                <span className="absolute -bottom-2 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-300" style={{ backgroundColor: primaryColor }}></span>
+              </a>
+              
             </div>
 
             <div className="hidden md:block">
