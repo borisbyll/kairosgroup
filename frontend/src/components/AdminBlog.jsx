@@ -47,7 +47,7 @@ const AdminBlog = () => {
     const data = new FormData();
     data.append("file", file);
     data.append("upload_preset", UPLOAD_PRESET);
-    data.append("folder", "kairosgroupblog"); 
+    //data.append("folder", "kairosgroupblog");// 
 
     setUploading(true);
     try {
