@@ -468,9 +468,11 @@ const confirmBulkDelete = async () => {
               <div className="relative w-full md:w-80">
                 <div className="absolute inset-y-0 left-4 flex items-center text-slate-400"><Icons.Search /></div>
                 <input type="text" placeholder="Rechercher..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full bg-white border border-slate-200 rounded-xl py-3 pl-12 pr-10 text-[11px] font-bold outline-none" />
+                  <button onClick={() => setSearchTerm('')} className="absolute inset-y-0 right-4 flex items-center text-slate-400 hover:text-red-500">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
               </div>
             </div>
-
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden min-w-[800px]">
               <table className="w-full text-left">
                 <thead className="bg-slate-50 text-[9px] font-bold text-slate-600 uppercase border-b border-slate-100">
