@@ -485,7 +485,7 @@ const confirmBulkDelete = async () => {
                       <td className="p-6"><input type="checkbox" checked={selectedIds.includes(v._id)} onChange={() => handleSelectOne(v._id)} className="rounded" /></td>
                       <td className="p-6 flex items-center gap-6">
                         <img src={v.images[0]} className="w-12 h-10 object-cover rounded" alt="" />
-                        <div><p className="font-bold text-slate-900 uppercase">{v.marque} {v.modele}</p><p style={{ color: primaryColor }} className="text-[10px] font-bold">{Number(v.prix).toLocaleString()} {siteConfig.features.currency}</p></div>
+                       <div><p className="font-bold text-slate-900 uppercase">{v.marque} {v.modele}</p><p className="text-[9px] text-slate-500 font-mono">ID: {v._id}</p><p className="text-[10px] text-[#184f02] font-bold">{Number(v.prix).toLocaleString()} {siteConfig.features.currency}</p></div>
                       </td>
                       <td className="p-6 text-center font-black uppercase text-[9px]">{v.categorie}</td>
                       <td className="p-6 text-center font-bold">{v.views || 0}</td>
