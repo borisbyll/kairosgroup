@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { siteConfig } from '../config/siteConfig';
-import * as Icons from 'lucide-react'; // Assure-toi d'avoir lucide-react installé
+
 
 const AdminBlog = () => {
   const [posts, setPosts] = useState([]);
@@ -48,7 +48,7 @@ const AdminBlog = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('adminToken');
       await axios.post(`${import.meta.env.VITE_API_URL}/api/posts`, newPost, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -66,7 +66,7 @@ const AdminBlog = () => {
   const deletePost = async (id) => {
     if (window.confirm("Supprimer définitivement cet article ?")) {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('adminToken');
         await axios.delete(`${import.meta.env.VITE_API_URL}/api/posts/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
