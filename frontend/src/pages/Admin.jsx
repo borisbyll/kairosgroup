@@ -461,7 +461,7 @@ const confirmBulkDelete = async () => {
                 {selectedIds.length > 0 && (
                   <button onClick={() => setShowBulkDeleteModal(true)} className="bg-red-600 text-white text-[9px] px-3 py-1.5 rounded-lg font-bold uppercase">Supprimer la sélection ({selectedIds.length})</button>
                 )}
-              <button className="bg-slate-900 text-white px-4 py-2 rounded-lg font-green text-[10px] uppercase tracking-[0.5em]">
+              <button>
                 <p className="text-[11px] font-white text-slate-900 uppercase tracking-tight">{filteredVehicles.length} {filteredVehicles.length > 1 ? 'véhicules trouvés' : 'véhicule trouvé'}</p>
               </button>
               </div>
