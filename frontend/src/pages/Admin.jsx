@@ -458,10 +458,10 @@ const confirmBulkDelete = async () => {
                     <button key={cat} onClick={() => setInventoryFilter(cat)} className={`text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-lg ${inventoryFilter === cat ? 'bg-slate-900 text-white' : 'text-slate-600 hover:bg-slate-100'}`}>{cat === 'Tous' ? 'Tout' : cat + 's'}</button>
                   ))}
                 </div>
-                <p className="text-[11px] font-bold text-slate-900 uppercase tracking-tight">{filteredVehicles.length} {filteredVehicles.length > 1 ? 'véhicules trouvés' : 'véhicule trouvé'}</p>
                 {selectedIds.length > 0 && (
                   <button onClick={() => setShowBulkDeleteModal(true)} className="bg-red-600 text-white text-[9px] px-3 py-1.5 rounded-lg font-bold uppercase">Supprimer la sélection ({selectedIds.length})</button>
                 )}
+                <p className="text-[11px] font-bold text-slate-900 uppercase tracking-tight">{filteredVehicles.length} {filteredVehicles.length > 1 ? 'véhicules trouvés' : 'véhicule trouvé'}</p>
               </div>
               <div className="relative w-full md:w-80">
                 <div className="absolute inset-y-0 left-4 flex items-center text-slate-400"><Icons.Search /></div>
