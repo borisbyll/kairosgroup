@@ -117,7 +117,7 @@ const AdminBlog = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
           <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Gestion du Blog</h2>
-          <p className="text-[11px] text-slate-500 font-bold uppercase tracking-widest mt-1">Espace éditorial - Emile Auto</p>
+          <p className="text-[11px] text-slate-500 font-bold uppercase tracking-widest mt-1">Espace éditorial - Kairos group</p>
         </div>
       </div>
 
