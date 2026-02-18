@@ -280,44 +280,68 @@ const confirmBulkDelete = async () => {
         </button>
       </div>
 
-{/* CONTENU PRINCIPAL */}
-  <main className="flex-1 p-4 md:p-12 overflow-x-hidden">
-    
-    {/* DASHBOARD (Stats) */}
-    {activeMenu === 'stats' && (
-      <div className="space-y-10 animate-in fade-in duration-500">
-        {/* Garde ici tout ton code actuel des statistiques (cartes, graphiques, etc.) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Tes cartes de stats habituelles... */}
+      {/* ASIDE SIDEBAR */}
+      <aside className={`
+        fixed inset-y-0 left-0 z-[120] w-64 bg-white border-r border-slate-200 flex flex-col shadow-sm transition-transform duration-300 ease-in-out
+        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} 
+        md:translate-x-0 md:relative md:flex
+      `}>
+        <div translate="no" className="p-8 flex flex-col items-center border-b border-slate-50 hidden md:flex">
+          <img src={siteConfig.logo} alt={siteConfig.name} className="w-42 h-auto mb-4" />
+          <h1 className="text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase">Administration</h1>
         </div>
-      </div>
-    )}
-
-    {/* --- C'EST ICI QUE LE BLOG DEVIENT FONCTIONNEL --- */}
-    {activeMenu === 'blog' && <AdminBlog />}
-
-    {/* PUBLICATION (Ajout de voiture) */}
-    {activeMenu === 'publish' && (
-      <div className="max-w-4xl animate-in fade-in duration-500">
-        {/* Ton formulaire de publication de voiture actuel... */}
-      </div>
-    )}
-
-    {/* INVENTAIRE (Tableau des voitures) */}
-    {activeMenu === 'assets' && (
-      <div className="space-y-6 animate-in fade-in duration-500 overflow-x-auto">
-        {/* Ton tableau de gestion des stocks actuel... */}
-      </div>
-    )}
-
-    {/* ALERTES (WhatsApp) */}
-    {activeMenu === 'alerts' && (
-      <div className="space-y-6 animate-in fade-in duration-500 overflow-x-auto">
-        {/* Ton historique des clics WhatsApp... */}
-      </div>
-    )}
-
-  </main>
+        
+        <nav className="flex-1 px-6 space-y-8 mt-6 overflow-y-auto">
+          <Link to="/" style={{ backgroundColor: primaryColor }} className="flex items-center justify-center gap-3 py-3 px-4 rounded-xl text-white text-[11px] font-bold uppercase tracking-widest hover:opacity-90 transition-all shadow-lg">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+            Retour Site
+          </Link>
+          <div className="space-y-4">
+            {[
+              { id: 'stats', label: 'Dashboard', icon: <Icons.Dashboard /> },
+              { id: 'publish', label: 'Publication', icon: <Icons.Publish /> },
+              { id: 'assets', label: 'Inventaire', icon: <Icons.Stock /> },
+              { id: 'alerts', label: 'Alertes', icon: <Icons.Alerts /> }
+              
+            ].map((item) => (
+              <button 
+                key={item.id} 
+                onClick={() => {
+                  item.id === 'alerts' ? handleOpenAlerts() : setActiveMenu(item.id);
+                  setIsMobileMenuOpen(false); 
+                }} 
+                className={`w-full flex items-center justify-between py-3 text-[11px] font-bold uppercase tracking-widest transition-all rounded-xl px-4 ${activeMenu === item.id ? 'bg-slate-900 text-white' : 'text-slate-600 hover:bg-slate-50'}`}
+              >
+                <div className="flex items-center gap-4">{item.icon} {item.label}</div>
+                {item.id === 'alerts' && unreadCount > 0 && activeMenu !== 'alerts' && (
+                  <span className="flex h-5 min-w-[20px] px-1 items-center justify-center rounded-full bg-red-600 text-[10px] text-white animate-bounce">{unreadCount}</span>
+                )}
+              </button>
+            ))}
+          </div>
+          {/* SECTION RÉDACTIONNELLE : Marketing et SEO */}
+            <div className="pt-4 border-t border-slate-100 space-y-2">
+              <p className="px-4 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Contenu Site</p>
+              {[
+                { id: 'blog', label: 'Gérer le Blog', icon: <Icons.FileText /> },
+              ].map((item) => (
+                <button 
+                  key={item.id} 
+                  onClick={() => {
+                    setActiveMenu(item.id);
+                    setIsMobileMenuOpen(false); 
+                  }} 
+                  className={`w-full flex items-center justify-between py-3 text-[11px] font-bold uppercase tracking-widest transition-all rounded-xl px-4 ${activeMenu === item.id ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:bg-slate-50'}`}
+                >
+                  <div className="flex items-center gap-4">{item.icon} {item.label}</div>
+                </button>
+              ))}
+            </div>
+        </nav>
+        <div className="p-6 border-t border-slate-100">
+          <button onClick={handleLogout} className="w-full flex items-center justify-center gap-2 py-3 bg-red-50 text-red-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all">Quitter</button>
+        </div>
+      </aside>
 
       {/* OVERLAY MOBILE */}
       {isMobileMenuOpen && (
