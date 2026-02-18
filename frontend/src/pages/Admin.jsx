@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { siteConfig } from '../config/siteConfig'; // Importation de la config
+import AdminBlog from '../components/AdminBlog';
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -262,7 +263,9 @@ const confirmBulkDelete = async () => {
     Box: () => <svg className="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>,
     Trend: () => <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>,
     Remove: () => <svg className="w-3 h-3" fill="none" stroke="white" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M6 18L18 6M6 6l12 12" /></svg>
+    FileText: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>,
   };
+
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] flex flex-col md:flex-row font-['Poppins'] text-slate-900">
@@ -299,6 +302,7 @@ const confirmBulkDelete = async () => {
               { id: 'publish', label: 'Publication', icon: <Icons.Publish /> },
               { id: 'assets', label: 'Inventaire', icon: <Icons.Stock /> },
               { id: 'alerts', label: 'Alertes', icon: <Icons.Alerts /> }
+              
             ].map((item) => (
               <button 
                 key={item.id} 
@@ -315,6 +319,24 @@ const confirmBulkDelete = async () => {
               </button>
             ))}
           </div>
+          {/* SECTION RÉDACTIONNELLE : Marketing et SEO */}
+            <div className="pt-4 border-t border-slate-100 space-y-2">
+              <p className="px-4 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Contenu Site</p>
+              {[
+                { id: 'blog', label: 'Gérer le Blog', icon: <Icons.FileText /> },
+              ].map((item) => (
+                <button 
+                  key={item.id} 
+                  onClick={() => {
+                    setActiveMenu(item.id);
+                    setIsMobileMenuOpen(false); 
+                  }} 
+                  className={`w-full flex items-center justify-between py-3 text-[11px] font-bold uppercase tracking-widest transition-all rounded-xl px-4 ${activeMenu === item.id ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:bg-slate-50'}`}
+                >
+                  <div className="flex items-center gap-4">{item.icon} {item.label}</div>
+                </button>
+              ))}
+            </div>
         </nav>
         <div className="p-6 border-t border-slate-100">
           <button onClick={handleLogout} className="w-full flex items-center justify-center gap-2 py-3 bg-red-50 text-red-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all">Quitter</button>
@@ -336,6 +358,11 @@ const confirmBulkDelete = async () => {
               <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center justify-between"><div><p className="text-[9px] font-bold text-slate-500 uppercase mb-1">Moyenne / Unité</p><p className="text-2xl font-bold text-blue-600">{Math.round(averagePrice).toLocaleString()} {siteConfig.features.currency}</p></div><Icons.Trend /></div>
               <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center justify-between"><div><p className="text-[9px] font-bold text-slate-500 uppercase mb-1">Vues Globales</p><p className="text-2xl font-bold">{totalViews}</p></div><Icons.Eye /></div>
             </div>
+            {/* CONTENU PRINCIPAL */}
+              <main className="flex-1 p-8">
+                {/* AJOUTE CETTE LIGNE */}
+                {activeMenu === 'blog' && <AdminBlog />}   
+              </main>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="bg-white p-8 rounded-xl border border-slate-100 shadow-sm">

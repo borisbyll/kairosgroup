@@ -15,6 +15,16 @@ router.post('/add', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+// --- ROUTE : SUPPRIMER TOUTES LES NOTIFICATIONS ---
+// Cette route répondra à DELETE /api/notifications/clear-all
+router.delete('/clear-all', authenticateToken, async (req, res) => {
+  try {
+    await Notification.deleteMany({});
+    res.json({ message: "Toutes les notifications ont été supprimées avec succès" });
+  } catch (err) {
+    res.status(500).json({ message: "Erreur lors de la suppression des notifications", error: err.message });
+  }
+});
 
 // Route pour récupérer les notifications dans l'Admin
 router.get('/', async (req, res) => {

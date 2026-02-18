@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import axios from 'axios';
+
+// Correction de la casse pour correspondre à tes fichiers réels
 import Layout from './components/layout'; 
 
 // Importation des composants
@@ -8,7 +10,12 @@ import Home from './pages/Home';
 import Catalogue from './pages/Catalogue';
 import CarDetail from './pages/CarDetail';
 import Admin from './pages/Admin';
-import Login from './pages/login';
+import Login from './pages/login'; // Vérifie la majuscule ici aussi
+import { siteConfig } from './config/siteConfig'; 
+
+// Blog (Nouvelles routes Emile Auto)
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -81,6 +88,9 @@ function App() {
                 </ProtectedRoute>
               } 
             />
+            <Route path="/blog" element={<Blog />} />
+
+            <Route path="/blog/:slug" element={<BlogPost/>} />
             
             {/* Gestion automatique des erreurs 404 vers l'accueil */}
             <Route path="*" element={<Navigate to="/" />} />
