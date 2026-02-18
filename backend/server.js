@@ -111,14 +111,6 @@ app.delete('/api/cars/:id', authenticateToken, async (req, res) => {
   } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
-// 4. ROUTE SPÉCIFIQUE NOTIFICATIONS (Si pas déjà dans notificationRoutes)
-app.delete('/api/notifications/clear-all', authenticateToken, async (req, res) => {
-  try {
-    await Notification.deleteMany({});
-    res.json({ message: "Toutes les notifications ont été supprimées" });
-  } catch (err) { res.status(500).json({ message: "Erreur lors du nettoyage" }); }
-});
-
 // --- LANCEMENT ---
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

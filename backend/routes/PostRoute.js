@@ -40,6 +40,25 @@ router.post('/', authenticateToken, async (req, res) => {
     res.status(201).json(newPost);
   } catch (err) { res.status(400).json({ message: err.message }); }
 });
+// --- AJOUTER CECI DANS PostRoute.js ---
+
+router.put('/:id', authenticateToken, async (req, res) => {
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(
+      req.params.id, 
+      req.body, 
+      { new: true, runValidators: true }
+    );
+    if (!updatedPost) return res.status(404).json({ message: "Article non trouvé" });
+    res.json(updatedPost);
+  } catch (err) {
+    // Si l'utilisateur change le titre pour un titre déjà pris
+    if (err.code === 11000) {
+      return res.status(400).json({ message: "Ce titre est déjà utilisé par un autre article" });
+    }
+    res.status(400).json({ message: err.message });
+  }
+});
 
 router.delete('/:id', authenticateToken, async (req, res) => {
   try {

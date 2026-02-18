@@ -61,44 +61,33 @@ const AdminBlog = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // 1. Vérification de l'image (obligatoire dans votre modèle Post.js)
-    if (!formData.image) {
-      return alert("Erreur : Vous devez uploader une image avant de publier.");
-    }
-
-    // 2. Génération automatique du slug (obligatoire dans votre modèle Post.js)
-    // On transforme "Mon Article Test" en "mon-article-test"
+    if (uploading) return alert("Veuillez attendre la fin de l'upload de l'image");
+    
+    // GÉNÉRATION DU SLUG (Requis par ton modèle Post.js)
     const generatedSlug = formData.title
       .toLowerCase()
       .trim()
-      .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Enlève les accents
-      .replace(/[^\w ]+/g, '') // Enlève les caractères spéciaux
-      .replace(/ +/g, '-'); // Remplace les espaces par des tirets
+      .replace(/[^\w ]+/g, '')
+      .replace(/ +/g, '-');
 
-    // On prépare l'objet final avec le slug inclus
-    const dataToSend = { 
-      ...formData, 
-      slug: generatedSlug 
-    };
+    const dataToSend = { ...formData, slug: generatedSlug };
 
     setLoading(true);
     try {
       if (editMode) {
+        // Cette route n'existait pas encore dans PostRoute.js
         await axios.put(`${API_URL}/${currentPostId}`, dataToSend, getAuthHeader());
       } else {
         await axios.post(API_URL, dataToSend, getAuthHeader());
       }
       resetForm();
       fetchPosts();
-      alert("Article publié avec succès sur Kairos group !");
+      alert(editMode ? "Article mis à jour !" : "Article publié !");
     } catch (err) {
-      // On affiche le message précis du serveur pour déboguer
-      const serverMessage = err.response?.data?.message || "Erreur de validation";
-      alert(`Erreur 400 : ${serverMessage}. Vérifiez que le titre est unique.`);
-      console.error("Détails erreur:", err.response?.data);
+      const errorMsg = err.response?.data?.message || "Erreur lors de l'enregistrement";
+      alert("Erreur : " + errorMsg);
     } finally {
       setLoading(false);
     }
@@ -140,7 +129,7 @@ const AdminBlog = () => {
       {/* HEADER */}
       <div className="border-b border-slate-200 pb-6">
         <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Gestion Blog</h2>
-        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Publiez du contenu pour Emile Auto</p>
+        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Publiez du contenu pour Kairos group</p>
       </div>
 
       {/* FORMULAIRE */}
