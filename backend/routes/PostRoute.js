@@ -3,13 +3,14 @@ const router = express.Router();
 const Post = require('../models/Post');
 const jwt = require('jsonwebtoken');
 
-// Middleware de protection (à adapter selon ton server.js)
+// DÉFINITION UNIQUE DU MIDDLEWARE (Puisque tu n'as pas encore créé le fichier centralisé)
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
-  if (!token) return res.sendStatus(401);
+  if (!token) return res.status(401).json({ message: "Accès refusé" });
+
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403);
+    if (err) return res.status(403).json({ message: "Session expirée" });
     req.user = user;
     next();
   });
