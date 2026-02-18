@@ -50,7 +50,7 @@ const Blog = () => {
                 <span>{new Date(post.createdAt).toLocaleDateString()}</span>
                 <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
                 {/* Suppression de post.readTime s'il n'est pas dans ton modèle Post.js */}
-                <span>Emile Auto</span> 
+                <span>Kairos group</span> 
               </div>
             </Link>
           ))}
