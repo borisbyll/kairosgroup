@@ -134,5 +134,5 @@ app.delete('/api/cars/:id', authenticateToken, async (req, res) => {
 // --- LANCEMENT DU SERVEUR ---
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Serveur Emile Auto lancé sur le port ${PORT}`);
+  console.log(`🚀 Serveur Kairos group lancé sur le port ${PORT}`);
 });

@@ -36,12 +36,12 @@ const Admin = () => {
   const API_URL = import.meta.env.VITE_API_URL;
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('adminToken');
     navigate('/login');
   };
 
   const getAuthHeader = () => {
-  const token = localStorage.getItem('token'); // Assure-toi que c'est le bon nom de clé
+  const token = localStorage.getItem('adminToken'); // Assure-toi que c'est le bon nom de clé
   if (!token) return {};
   return { 'Authorization': `Bearer ${token}` };
 };

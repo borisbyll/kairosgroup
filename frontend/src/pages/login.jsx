@@ -22,7 +22,7 @@ const Login = () => {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/login`, credentials);
 
       if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('adminToken', response.data.token);
         navigate('/admin');
       }
     } catch (err) {
