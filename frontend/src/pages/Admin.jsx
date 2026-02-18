@@ -280,44 +280,44 @@ const confirmBulkDelete = async () => {
         </button>
       </div>
 
-    {/* CONTENU PRINCIPAL */}
-          <main className="flex-1 p-4 md:p-12 overflow-x-hidden">
-            
-            {/* DASHBOARD (Stats) */}
-            {activeMenu === 'stats' && (
-              <div className="space-y-10 animate-in fade-in duration-500">
-                {/* Garde ici tout ton code actuel des statistiques (cartes, graphiques, etc.) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {/* Tes cartes de stats habituelles... */}
-                </div>
-              </div>
-            )}
+{/* CONTENU PRINCIPAL */}
+  <main className="flex-1 p-4 md:p-12 overflow-x-hidden">
+    
+    {/* DASHBOARD (Stats) */}
+    {activeMenu === 'stats' && (
+      <div className="space-y-10 animate-in fade-in duration-500">
+        {/* Garde ici tout ton code actuel des statistiques (cartes, graphiques, etc.) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Tes cartes de stats habituelles... */}
+        </div>
+      </div>
+    )}
 
-            {/* --- C'EST ICI QUE LE BLOG DEVIENT FONCTIONNEL --- */}
-            {activeMenu === 'blog' && <AdminBlog />}
+    {/* --- C'EST ICI QUE LE BLOG DEVIENT FONCTIONNEL --- */}
+    {activeMenu === 'blog' && <AdminBlog />}
 
-            {/* PUBLICATION (Ajout de voiture) */}
-            {activeMenu === 'publish' && (
-              <div className="max-w-4xl animate-in fade-in duration-500">
-                {/* Ton formulaire de publication de voiture actuel... */}
-              </div>
-            )}
+    {/* PUBLICATION (Ajout de voiture) */}
+    {activeMenu === 'publish' && (
+      <div className="max-w-4xl animate-in fade-in duration-500">
+        {/* Ton formulaire de publication de voiture actuel... */}
+      </div>
+    )}
 
-            {/* INVENTAIRE (Tableau des voitures) */}
-            {activeMenu === 'assets' && (
-              <div className="space-y-6 animate-in fade-in duration-500 overflow-x-auto">
-                {/* Ton tableau de gestion des stocks actuel... */}
-              </div>
-            )}
+    {/* INVENTAIRE (Tableau des voitures) */}
+    {activeMenu === 'assets' && (
+      <div className="space-y-6 animate-in fade-in duration-500 overflow-x-auto">
+        {/* Ton tableau de gestion des stocks actuel... */}
+      </div>
+    )}
 
-            {/* ALERTES (WhatsApp) */}
-            {activeMenu === 'alerts' && (
-              <div className="space-y-6 animate-in fade-in duration-500 overflow-x-auto">
-                {/* Ton historique des clics WhatsApp... */}
-              </div>
-            )}
+    {/* ALERTES (WhatsApp) */}
+    {activeMenu === 'alerts' && (
+      <div className="space-y-6 animate-in fade-in duration-500 overflow-x-auto">
+        {/* Ton historique des clics WhatsApp... */}
+      </div>
+    )}
 
-          </main>
+  </main>
 
       {/* OVERLAY MOBILE */}
       {isMobileMenuOpen && (
