@@ -358,8 +358,12 @@ const confirmBulkDelete = async () => {
               <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center justify-between"><div><p className="text-[9px] font-bold text-slate-500 uppercase mb-1">Moyenne / Unité</p><p className="text-2xl font-bold text-blue-600">{Math.round(averagePrice).toLocaleString()} {siteConfig.features.currency}</p></div><Icons.Trend /></div>
               <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center justify-between"><div><p className="text-[9px] font-bold text-slate-500 uppercase mb-1">Vues Globales</p><p className="text-2xl font-bold">{totalViews}</p></div><Icons.Eye /></div>
             </div>
-        {/* --- C'EST ICI QUE LE BLOG DEVIENT FONCTIONNEL --- */}
-      {activeMenu === 'blog' && <AdminBlog />}
+
+        {activeMenu === 'blog' && (
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <AdminBlog />
+            </div>
+          )}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="bg-white p-8 rounded-xl border border-slate-100 shadow-sm">
                 <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6">Asset le plus consulté</h4>
