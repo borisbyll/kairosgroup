@@ -63,20 +63,42 @@ const AdminBlog = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (uploading) return alert("Veuillez attendre la fin de l'upload de l'image");
-    
+
+    // 1. Vérification de l'image (obligatoire dans votre modèle Post.js)
+    if (!formData.image) {
+      return alert("Erreur : Vous devez uploader une image avant de publier.");
+    }
+
+    // 2. Génération automatique du slug (obligatoire dans votre modèle Post.js)
+    // On transforme "Mon Article Test" en "mon-article-test"
+    const generatedSlug = formData.title
+      .toLowerCase()
+      .trim()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Enlève les accents
+      .replace(/[^\w ]+/g, '') // Enlève les caractères spéciaux
+      .replace(/ +/g, '-'); // Remplace les espaces par des tirets
+
+    // On prépare l'objet final avec le slug inclus
+    const dataToSend = { 
+      ...formData, 
+      slug: generatedSlug 
+    };
+
     setLoading(true);
     try {
       if (editMode) {
-        await axios.put(`${API_URL}/${currentPostId}`, formData, getAuthHeader());
+        await axios.put(`${API_URL}/${currentPostId}`, dataToSend, getAuthHeader());
       } else {
-        await axios.post(API_URL, formData, getAuthHeader());
+        await axios.post(API_URL, dataToSend, getAuthHeader());
       }
       resetForm();
       fetchPosts();
-      alert(editMode ? "Article mis à jour !" : "Article publié !");
+      alert("Article publié avec succès sur Kairos group !");
     } catch (err) {
-      alert("Erreur lors de l'enregistrement sur le serveur.");
+      // On affiche le message précis du serveur pour déboguer
+      const serverMessage = err.response?.data?.message || "Erreur de validation";
+      alert(`Erreur 400 : ${serverMessage}. Vérifiez que le titre est unique.`);
+      console.error("Détails erreur:", err.response?.data);
     } finally {
       setLoading(false);
     }
