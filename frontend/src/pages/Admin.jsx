@@ -268,10 +268,10 @@ const confirmBulkDelete = async () => {
 
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col md:flex-row font-['Poppins'] text-slate-900">
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col md:flex-row font-['Poppins'] text-slate-900 overflow-hidden">
       
       {/* BARRE MOBILE */}
-      <div className="md:hidden bg-white border-b border-slate-200 p-4 flex justify-between items-center sticky top-0 z-[110] overflow-hidden">
+      <div className="md:hidden bg-white border-b border-slate-200 p-4 flex justify-between items-center sticky top-0 z-[110]">
         <img src={siteConfig.logo} alt={siteConfig.name} className="h-8 w-auto" />
         <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-slate-900">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -282,7 +282,7 @@ const confirmBulkDelete = async () => {
 
       {/* ASIDE SIDEBAR */}
       <aside className={`
-        flex-shrink-0 overflow-hidden h-full fixed inset-y-0 left-0 z-[120] w-64 bg-white border-r border-slate-200 flex flex-col shadow-sm transition-transform duration-300 ease-in-out
+        overflow-hidden h-full fixed inset-y-0 left-0 z-[120] w-64 bg-white border-r border-slate-200 flex flex-col shadow-sm transition-transform duration-300 ease-in-out
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} 
         md:translate-x-0 md:relative md:flex
       `}>
