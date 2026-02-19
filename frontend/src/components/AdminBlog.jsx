@@ -8,7 +8,7 @@ const AdminBlog = () => {
   const [editMode, setEditMode] = useState(false);
   const [currentPostId, setCurrentPostId] = useState(null);
   
-  // --- NOUVEAUX ÉTATS POUR LA MODALE ---
+  // --- ÉTATS POUR LA MODALE PERSONNALISÉE ---
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
 
@@ -20,6 +20,7 @@ const AdminBlog = () => {
     published: true
   });
 
+  // RÉCUPÉRATION DES VARIABLES D'ENVIRONNEMENT
   const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_PRESET_BLOG; 
   const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
@@ -45,6 +46,7 @@ const AdminBlog = () => {
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
     const data = new FormData();
     data.append("file", file);
     data.append("upload_preset", UPLOAD_PRESET);
@@ -55,7 +57,7 @@ const AdminBlog = () => {
       setFormData(prev => ({ ...prev, image: res.data.secure_url }));
     } catch (err) {
       console.error("Détails erreur:", err.response?.data);
-      alert("Erreur Cloudinary : Vérifiez le mode 'Unsigned'");
+      alert("Erreur Cloudinary : Vérifiez que le preset est bien en mode 'Unsigned'");
     } finally {
       setUploading(false);
     }
@@ -80,10 +82,10 @@ const AdminBlog = () => {
         setModalMessage("L'article a été mis à jour avec succès !");
       } else {
         await axios.post(API_URL, dataToSend, getAuthHeader());
-        setModalMessage("Votre nouvel article est maintenant publié !");
+        setModalMessage("Votre nouvel article a été publié avec succès !");
       }
       
-      // Afficher la modale et réinitialiser
+      // AFFICHAGE DE LA MODALE AU LIEU DE L'ALERTE
       setShowModal(true);
       resetForm();
       fetchPosts();
@@ -95,7 +97,6 @@ const AdminBlog = () => {
     }
   };
 
-  // ... (handleEdit, deletePost, resetForm restent identiques)
   const handleEdit = (post) => {
     setEditMode(true);
     setCurrentPostId(post._id);
@@ -129,15 +130,15 @@ const AdminBlog = () => {
   return (
     <div className="relative space-y-10 animate-in fade-in duration-500 pb-20">
       
-      {/* MODAL DE SUCCÈS */}
+      {/* MODALE DE VALIDATION PERSONNALISÉE */}
       {showModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in zoom-in duration-300">
-          <div className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center space-y-6">
+          <div className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center space-y-6 border border-slate-100">
             <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-4xl mx-auto animate-bounce">
               ✓
             </div>
             <div>
-              <h3 className="text-xl font-black text-slate-900 uppercase">Succès !</h3>
+              <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Félicitations</h3>
               <p className="text-sm text-slate-500 font-medium mt-2">{modalMessage}</p>
             </div>
             <button 
@@ -153,10 +154,10 @@ const AdminBlog = () => {
       {/* HEADER */}
       <div className="border-b border-slate-200 pb-6">
         <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Gestion Blog</h2>
-        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Contenu éditorial - Kairos Group</p>
+        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Publiez du contenu pour <span translate='no'>Kairos group</span></p>
       </div>
 
-      {/* FORMULAIRE (Le reste du code reste inchangé dans la structure) */}
+      {/* FORMULAIRE */}
       <section className="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
         <div className="bg-slate-900 p-4 flex justify-between items-center">
           <h3 className="text-white text-[10px] font-black uppercase tracking-[0.3em]">
@@ -166,7 +167,6 @@ const AdminBlog = () => {
         </div>
         
         <form onSubmit={handleSubmit} className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* ... Garde tes champs de formulaire identiques à ton fichier original ... */}
           <div className="space-y-6">
             <div>
               <label className="text-[10px] font-black uppercase text-slate-400 ml-1">Titre</label>
@@ -178,13 +178,14 @@ const AdminBlog = () => {
                 required
               />
             </div>
+
             <div>
               <label className="text-[10px] font-black uppercase text-slate-400 ml-1">Image Couverture</label>
               <div className="mt-1 relative">
                 <input type="file" id="file-blog" className="hidden" onChange={handleImageUpload} accept="image/*" />
                 <label htmlFor="file-blog" className={`flex flex-col items-center justify-center w-full h-44 border-2 border-dashed rounded-2xl cursor-pointer transition-all ${formData.image ? 'border-green-200 bg-green-50' : 'border-slate-200 bg-slate-50 hover:bg-slate-100'}`}>
                   {uploading ? (
-                    <div className="text-[10px] font-bold text-blue-600 animate-pulse uppercase">Chargement...</div>
+                    <div className="text-[10px] font-bold text-blue-600 animate-pulse uppercase">Chargement de l'image...</div>
                   ) : formData.image ? (
                     <img src={formData.image} className="h-full w-full object-cover rounded-2xl" alt="Preview" />
                   ) : (
@@ -196,6 +197,7 @@ const AdminBlog = () => {
                 </label>
               </div>
             </div>
+
             <div>
               <label className="text-[10px] font-black uppercase text-slate-400 ml-1">Extrait SEO</label>
               <textarea 
@@ -205,6 +207,7 @@ const AdminBlog = () => {
               />
             </div>
           </div>
+
           <div className="flex flex-col">
             <label className="text-[10px] font-black uppercase text-slate-400 ml-1 mb-1">Contenu (Texte)</label>
             <textarea 
@@ -214,6 +217,7 @@ const AdminBlog = () => {
               required
             />
           </div>
+
           <div className="lg:col-span-2 flex items-center justify-between pt-6 border-t border-slate-50">
             <div className="flex items-center gap-2">
               <input type="checkbox" id="pub" checked={formData.published} onChange={(e) => setFormData({...formData, published: e.target.checked})} className="w-4 h-4 rounded text-blue-600" />
@@ -229,7 +233,7 @@ const AdminBlog = () => {
         </form>
       </section>
 
-      {/* INVENTAIRE (Garde ton tableau actuel) */}
+      {/* TABLEAU INVENTAIRE */}
       <section className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
         <table className="w-full text-left">
           <thead className="bg-slate-50 text-[9px] font-black text-slate-400 uppercase">
@@ -259,6 +263,7 @@ const AdminBlog = () => {
             ))}
           </tbody>
         </table>
+        {posts.length === 0 && <div className="p-10 text-center text-[10px] font-bold text-slate-300 uppercase">Aucun article trouvé</div>}
       </section>
     </div>
   );

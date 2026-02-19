@@ -134,6 +134,7 @@ const Layout = ({ children }) => {
              <button onClick={() => setIsMenuOpen(false)} className="absolute top-10 right-10 text-slate-900 font-bold uppercase tracking-widest">Fermer ✕</button>
              <Link to="/" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black text-slate-900 uppercase">Accueil</Link>
              <Link to="/Catalogue" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black text-slate-900 uppercase">Catalogue</Link>
+             <Link to="/Blog" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black text-slate-900 uppercase">Notre Blog</Link>
              <a href="/#expertises" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black text-slate-900 uppercase">Expertises</a>
              <button onClick={() => { setIsMenuOpen(false); setIsModalOpen(true); }} className="text-3xl font-black uppercase" style={{ color: primaryColor }}>Prendre Contact</button>
           </div>

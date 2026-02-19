@@ -27,7 +27,7 @@ const BlogPost = () => {
   if (!post) return <Layout><div className="pt-40 text-center font-bold">Article introuvable.</div></Layout>;
 
   return (
-    <Layout>
+    
       <article className="bg-white min-h-screen">
         {/* Banner Image */}
         <div className="w-full h-[60vh] relative">
@@ -77,7 +77,6 @@ const BlogPost = () => {
           </div>
         </div>
       </article>
-    </Layout>
   );
 };
 
