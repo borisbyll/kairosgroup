@@ -291,7 +291,7 @@ const confirmBulkDelete = async () => {
           <h1 className="text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase">Administration</h1>
         </div>
         
-        <nav className="flex-1 px-6 space-y-8 mt-6 overflow-y-auto">
+        <nav className="flex-1 px-6 space-y-8 mt-6">
           <Link to="/" style={{ backgroundColor: primaryColor }} className="flex items-center justify-center gap-3 py-3 px-4 rounded-xl text-white text-[11px] font-bold uppercase tracking-widest hover:opacity-90 transition-all shadow-lg">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
             Retour Site
