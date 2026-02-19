@@ -349,7 +349,7 @@ const confirmBulkDelete = async () => {
       )}
 
       {/* MAIN CONTENT */}
-      <main className="flex-1 h-full overflow-y-auto bg-slate-50 relative">
+      <main className="flex-1 h-full bg-slate-50 relative">
         {activeMenu === 'stats' && (
           <div className="space-y-10 animate-in fade-in duration-500">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
