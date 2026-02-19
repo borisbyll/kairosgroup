@@ -11,14 +11,17 @@ const AdminBlog = () => {
   // --- ÉTATS POUR LA MODALE PERSONNALISÉE ---
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState({ show: false, id: null });
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const [formData, setFormData] = useState({
-    title: '',
-    content: '',
-    excerpt: '',
-    image: '',
-    published: true
-  });
+  title: '',
+  content: '',
+  excerpt: '',
+  image: '',
+  category: 'Conseils', // Ajoute la catégorie par défaut ici
+  published: true
+});
 
   // RÉCUPÉRATION DES VARIABLES D'ENVIRONNEMENT
   const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
@@ -110,16 +113,19 @@ const AdminBlog = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const deletePost = async (id) => {
-    if (window.confirm("Supprimer définitivement cet article ?")) {
-      try {
-        await axios.delete(`${API_URL}/${id}`, getAuthHeader());
-        fetchPosts();
-      } catch (err) {
-        alert("Erreur lors de la suppression.");
-      }
-    }
-  };
+const deletePost = async (id) => {
+  try {
+    await axios.delete(`${API_URL}/${id}`, getAuthHeader());
+    fetchPosts(); // Rafraîchir la liste
+    setShowDeleteModal({ show: false, id: null }); // Fermer la modale
+    setModalMessage("L'article a été supprimé avec succès.");
+    setShowModal(true); // Afficher le succès
+  } catch (err) {
+    console.error("Erreur suppression:", err);
+    setModalMessage("Erreur lors de la suppression.");
+    setShowModal(true);
+  }
+};
 
   const resetForm = () => {
     setFormData({ title: '', content: '', excerpt: '', image: '', published: true });
@@ -178,6 +184,19 @@ const AdminBlog = () => {
                 required
               />
             </div>
+          <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase text-slate-400 ml-1">Catégorie</label>
+                <select 
+                    className="w-full p-5 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-slate-200 transition-all appearance-none"
+                    value={formData.category}
+                    onChange={(e) => setFormData({...formData, category: e.target.value})}
+                  >
+                    <option value="Conseils">Conseils</option>
+                    <option value="Nouveautés">Nouveautés</option>
+                    <option value="Entretien">Entretien</option>
+                    <option value="Événements">Événements</option>
+                </select>
+          </div>
 
             <div>
               <label className="text-[10px] font-black uppercase text-slate-400 ml-1">Image Couverture</label>
@@ -257,7 +276,7 @@ const AdminBlog = () => {
                 </td>
                 <td className="p-4 text-right space-x-2">
                   <button onClick={() => handleEdit(post)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all">✏️</button>
-                  <button onClick={() => deletePost(post._id)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-all">🗑️</button>
+                  <button onClick={() => setShowDeleteModal({ show: true, id: post._id })} className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-all">🗑️</button>
                 </td>
               </tr>
             ))}
@@ -265,6 +284,29 @@ const AdminBlog = () => {
         </table>
         {posts.length === 0 && <div className="p-10 text-center text-[10px] font-bold text-slate-300 uppercase">Aucun article trouvé</div>}
       </section>
+      {showDeleteModal.show && (
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[250] flex items-center justify-center p-4">
+          <div className="bg-white rounded-[2.5rem] p-8 max-w-sm w-full text-center shadow-2xl">
+            <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-6">⚠️</div>
+            <h3 className="text-lg font-black text-slate-900 uppercase tracking-tighter mb-2">Supprimer l'article ?</h3>
+            <p className="text-[11px] text-slate-500 mb-8 font-medium uppercase tracking-widest">Cette action est irréversible.</p>
+            <div className="flex gap-4">
+              <button 
+                onClick={() => setShowDeleteModal({ show: false, id: null })} 
+                className="flex-1 py-4 bg-slate-100 text-slate-600 rounded-2xl font-bold text-[10px] uppercase tracking-widest"
+              >
+                Annuler
+              </button>
+              <button 
+                onClick={() => deletePost(showDeleteModal.id)} 
+                className="flex-1 py-4 bg-red-600 text-white rounded-2xl font-bold text-[10px] uppercase tracking-widest shadow-lg shadow-red-200"
+              >
+                Confirmer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
