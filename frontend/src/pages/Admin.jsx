@@ -94,38 +94,37 @@ const Admin = () => {
     console.error("Erreur suppression notifications:", err); 
   }
 };
-useEffect(() => {
-  // 1. Vérification immédiate au chargement
-  const token = localStorage.getItem('adminToken');
-  if (!token) {
-    navigate('/login');
-  } else {
-    fetchVehicles();
-    fetchNotifications();
-  }
 
-  // 2. SÉCURITÉ : Intercepteur pour les erreurs futures (ex: session qui expire après 24h)
-  const interceptor = axios.interceptors.response.use(
-    (response) => response, // Si la requête réussit, on ne fait rien
-    (error) => {
-      // Si le serveur répond 401 ou 403, c'est que le token n'est plus bon
-      if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-        localStorage.removeItem('adminToken'); // On nettoie
-        navigate('/login'); // On ramène au login
-      }
-      return Promise.reject(error);
+    useEffect(() => {
+    // 1. Vérification de sécurité au chargement de la page
+    const token = localStorage.getItem('adminToken');
+    if (!token) {
+      navigate('/login');
+    } else {
+      fetchVehicles();
+      fetchNotifications();
     }
-  );
 
-  // 3. Nettoyage de la sécurité quand on ferme le composant
-  return () => axios.interceptors.response.eject(interceptor);
-}, [navigate]);
-    
+    // 2. Surveillance automatique des erreurs 401/403 (Session expirée)
+    const interceptor = axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+          localStorage.removeItem('adminToken');
+          navigate('/login');
+        }
+        return Promise.reject(error);
+      }
+    );
+
     const interval = setInterval(fetchNotifications, 20000);
-    return () => clearInterval(interval);
-    // Ajoute activeMenu ici pour rafraîchir les données quand tu changes d'onglet
-  }, [activeMenu]);
 
+    // 3. Nettoyage lors de la fermeture de la page
+    return () => {
+      clearInterval(interval);
+      axios.interceptors.response.eject(interceptor);
+    };
+  }, [navigate, activeMenu]); // Ajout de navigate dans les dépendances
   const filteredVehicles = vehicles.filter(v => {
     const matchesCategory = inventoryFilter === 'Tous' || v.categorie === inventoryFilter;
     const matchesSearch = 
