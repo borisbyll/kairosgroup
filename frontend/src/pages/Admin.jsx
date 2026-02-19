@@ -282,7 +282,7 @@ const confirmBulkDelete = async () => {
 
       {/* ASIDE SIDEBAR */}
       <aside className={`
-        flex-shrink-0 h-full fixed inset-y-0 left-0 z-[120] w-64 bg-white border-r border-slate-200 flex flex-col shadow-sm transition-transform duration-300 ease-in-out
+        flex-shrink-0 overflow-hidden h-full fixed inset-y-0 left-0 z-[120] w-64 bg-white border-r border-slate-200 flex flex-col shadow-sm transition-transform duration-300 ease-in-out
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} 
         md:translate-x-0 md:relative md:flex
       `}>
