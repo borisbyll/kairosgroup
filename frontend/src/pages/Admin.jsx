@@ -94,10 +94,32 @@ const Admin = () => {
     console.error("Erreur suppression notifications:", err); 
   }
 };
-
-    useEffect(() => { 
-    fetchVehicles(); // Récupère les véhicules ET leurs vues
+useEffect(() => {
+  // 1. Vérification immédiate au chargement
+  const token = localStorage.getItem('adminToken');
+  if (!token) {
+    navigate('/login');
+  } else {
+    fetchVehicles();
     fetchNotifications();
+  }
+
+  // 2. SÉCURITÉ : Intercepteur pour les erreurs futures (ex: session qui expire après 24h)
+  const interceptor = axios.interceptors.response.use(
+    (response) => response, // Si la requête réussit, on ne fait rien
+    (error) => {
+      // Si le serveur répond 401 ou 403, c'est que le token n'est plus bon
+      if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+        localStorage.removeItem('adminToken'); // On nettoie
+        navigate('/login'); // On ramène au login
+      }
+      return Promise.reject(error);
+    }
+  );
+
+  // 3. Nettoyage de la sécurité quand on ferme le composant
+  return () => axios.interceptors.response.eject(interceptor);
+}, [navigate]);
     
     const interval = setInterval(fetchNotifications, 20000);
     return () => clearInterval(interval);
