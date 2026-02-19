@@ -268,7 +268,7 @@ const confirmBulkDelete = async () => {
 
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col md:flex-row font-['Poppins'] text-slate-900">
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col md:flex-row font-['Poppins'] text-slate-900flex h-screen bg-slate-50 overflow-hidden">
       
       {/* BARRE MOBILE */}
       <div className="md:hidden bg-white border-b border-slate-200 p-4 flex justify-between items-center sticky top-0 z-[110]">
