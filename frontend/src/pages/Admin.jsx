@@ -271,7 +271,7 @@ const confirmBulkDelete = async () => {
     <div className="min-h-screen bg-[#F8FAFC] flex flex-col md:flex-row font-['Poppins'] text-slate-900">
       
       {/* BARRE MOBILE */}
-      <div className="md:hidden bg-white border-b border-slate-200 p-4 flex justify-between items-center sticky top-0 z-[110]">
+      <div className="md:hidden bg-white border-b border-slate-200 p-4 flex justify-between items-center sticky top-0 z-[110] overflow-hidden">
         <img src={siteConfig.logo} alt={siteConfig.name} className="h-8 w-auto" />
         <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-slate-900">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -282,7 +282,7 @@ const confirmBulkDelete = async () => {
 
       {/* ASIDE SIDEBAR */}
       <aside className={`
-        fixed inset-y-0 left-0 z-[120] w-64 bg-white border-r border-slate-200 flex flex-col shadow-sm transition-transform duration-300 ease-in-out
+        flex-shrink-0 h-full fixed inset-y-0 left-0 z-[120] w-64 bg-white border-r border-slate-200 flex flex-col shadow-sm transition-transform duration-300 ease-in-out
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} 
         md:translate-x-0 md:relative md:flex
       `}>
@@ -349,7 +349,7 @@ const confirmBulkDelete = async () => {
       )}
 
       {/* MAIN CONTENT */}
-      <main className="flex-1 p-4 md:p-12 overflow-x-hidden">
+      <main className="flex-1 h-full overflow-y-auto bg-slate-50 relative">
         {activeMenu === 'stats' && (
           <div className="space-y-10 animate-in fade-in duration-500">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
