@@ -268,7 +268,7 @@ const confirmBulkDelete = async () => {
 
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col md:flex-row font-['Poppins'] text-slate-900 bg-slate-50 overflow-hidden">
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col md:flex-row font-['Poppins'] text-slate-900">
       
       {/* BARRE MOBILE */}
       <div className="md:hidden bg-white border-b border-slate-200 p-4 flex justify-between items-center sticky top-0 z-[110]">
@@ -282,18 +282,16 @@ const confirmBulkDelete = async () => {
 
       {/* ASIDE SIDEBAR */}
       <aside className={`
+        fixed inset-y-0 left-0 z-[120] w-64 bg-white border-r border-slate-200 flex flex-col shadow-sm transition-transform duration-300 ease-in-out
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} 
-        lg:translate-x-0 fixed lg:relative z-50 w-72 h-full 
-        bg-white border-r border-slate-200 transition-transform duration-300
-        flex flex-col flex-shrink-0
-
+        md:translate-x-0 md:relative md:flex
       `}>
         <div translate="no" className="p-8 flex flex-col items-center border-b border-slate-50 hidden md:flex">
           <img src={siteConfig.logo} alt={siteConfig.name} className="w-42 h-auto mb-4" />
           <h1 className="text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase">Administration</h1>
         </div>
         
-        <nav className="flex-1 overflow-y-auto p-6 space-y-2 custom-scrollbar">
+        <nav className="flex-1 px-6 space-y-8 mt-6 overflow-y-auto">
           <Link to="/" style={{ backgroundColor: primaryColor }} className="flex items-center justify-center gap-3 py-3 px-4 rounded-xl text-white text-[11px] font-bold uppercase tracking-widest hover:opacity-90 transition-all shadow-lg">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
             Retour Site
@@ -351,7 +349,7 @@ const confirmBulkDelete = async () => {
       )}
 
       {/* MAIN CONTENT */}
-      <main className="flex-1 h-full overflow-y-auto bg-slate-50 relative custom-scrollbar">
+      <main className="flex-1 p-4 md:p-12 overflow-x-hidden">
         {activeMenu === 'stats' && (
           <div className="space-y-10 animate-in fade-in duration-500">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
