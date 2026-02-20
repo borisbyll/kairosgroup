@@ -218,7 +218,7 @@ const Home = () => {
     {/* BLOC DES DEUX OPTIONS STRATÉGIQUES */}
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
       {/* Option 1: Stock Local */}
-      <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border-t-4 relative overflow-hidden group" style={{ borderTopColor: primaryColor }}>
+      <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl relative overflow-hidden group" style={{ borderTopColor: primaryColor }}>
         <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:rotate-12 transition-transform duration-500">
           <span className="text-8xl">📍</span>
         </div>
