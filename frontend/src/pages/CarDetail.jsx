@@ -127,6 +127,18 @@ const CarDetail = () => {
                     <span className="text-2xl font-black italic">{car.prix?.toLocaleString()}</span>
                     <span className="ml-1 text-[9px] font-bold opacity-40 uppercase">{siteConfig.features.currency}</span>
                 </div>
+                <div className="mt-4">
+                      <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
+                        car.localisation === 'Canada' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' :
+                        car.localisation === 'Allemagne' ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' :
+                        'bg-green-500/10 text-green-400 border-green-500/20'
+                      }`}>
+                        <span className="text-sm">
+                          {car.localisation === 'Canada' ? '🇨🇦' : car.localisation === 'Allemagne' ? '🇩🇪' : '🇹🇬'}
+                        </span>
+                        {car.localisation || 'Stock Togo'}
+                      </span>
+                    </div>
               </div>
 
               <div className="flex flex-wrap gap-3 max-w-sm">
@@ -169,6 +181,7 @@ const CarDetail = () => {
                 {[
                   { label: "Kilométrage", val: `${car.valeurCompteur?.toLocaleString()} KM` },
                   { label: "Année", val: car.annee },
+                  { label: "Provenance", val: car.localisation || "Togo" }, // AJOUT ICI
                   { label: "Motorisation", val: car.motorisation },
                   { label: "Transmission", val: car.transmission || "N/A" }
                 ].map((item, idx) => (
@@ -177,6 +190,19 @@ const CarDetail = () => {
                     <p className="text-xs font-black text-slate-900 uppercase italic">{item.val}</p>
                   </div>
                 ))}
+            </div>
+          <div className="mb-8 p-6 rounded-[2rem] bg-slate-50 border border-slate-100 flex items-center gap-5">
+              <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-2xl">
+                {car.localisation === 'Canada' || car.localisation === 'Allemagne' ? '🚢' : '📍'}
+              </div>
+              <div>
+                <p className="text-[11px] font-black uppercase text-slate-900 tracking-tight">Disponibilité du véhicule</p>
+                <p className="text-[11px] text-slate-500 leading-tight">
+                  {car.localisation === 'Canada' || car.localisation === 'Allemagne' 
+                    ? `Actuellement en stock au ${car.localisation}. Arrivage sécurisé par Emile Auto. Contactez-nous pour les détails d'importation.` 
+                    : "Véhicule disponible immédiatement pour visite et essai à notre showroom de Lomé."}
+                </p>
+              </div>
             </div>
             <p className="text-sm text-slate-500 leading-relaxed italic whitespace-pre-wrap">{car.description}</p>
         </div>

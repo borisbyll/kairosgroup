@@ -30,6 +30,7 @@ const Admin = () => {
 
   const [formData, setFormData] = useState({
     categorie: 'Voiture', marque: '', modele: '', prix: '',
+    localisation: 'Togo', // Ajoute cette ligne
     annee: 2026, valeurCompteur: '', tonnage: '',
     motorisation: 'Essence', transmission: 'Automatique', description: '', images: []
   });
@@ -232,6 +233,7 @@ const confirmBulkDelete = async () => {
     setFormData({
       categorie: vehicle.categorie, marque: vehicle.marque, modele: vehicle.modele, prix: vehicle.prix,
       annee: vehicle.annee, valeurCompteur: vehicle.valeurCompteur, tonnage: vehicle.tonnage || '',
+      localisation: vehicle.localisation || 'Togo',
       motorisation: vehicle.motorisation, transmission: vehicle.transmission || 'Automatique', description: vehicle.description, images: vehicle.images
     });
     setActiveMenu('publish'); 
@@ -460,6 +462,20 @@ const confirmBulkDelete = async () => {
                 <select value={formData.categorie} onChange={(e) => setFormData({...formData, categorie: e.target.value})} className="p-2 border-b border-slate-200 text-[13px] outline-none font-bold uppercase">
                   <option value="Voiture">Voiture</option><option value="Camion">Camion</option><option value="Tracteur">Tracteur</option>
                 </select>
+              {/* NOUVEAU : Sélecteur Localisation */}
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-black uppercase text-slate-400 ml-1">Localisation du véhicule</label>
+                <select 
+                  value={formData.localisation || 'Togo'} 
+                  onChange={(e) => setFormData({...formData, localisation: e.target.value})} 
+                  className="p-3 border-b-2 border-slate-100 text-[13px] outline-none font-bold uppercase text-blue-600 bg-transparent focus:border-blue-600 transition-all"
+                >
+                  <option value="Togo">🇹🇬 Togo (Disponible)</option>
+                  <option value="Canada">🇨🇦 Canada (Importation)</option>
+                  <option value="Allemagne">🇩🇪 Allemagne (Importation)</option>
+                </select>
+              </div>
+
                 <select value={formData.motorisation} onChange={(e) => setFormData({...formData, motorisation: e.target.value})} className="p-2 border-b border-slate-200 text-[13px] outline-none font-bold uppercase">
                   <option value="Essence">Essence</option><option value="Diesel">Diesel</option><option value="Hybride">Hybride</option><option value="Electrique">Electrique</option>
                 </select>
@@ -535,6 +551,18 @@ const confirmBulkDelete = async () => {
                       <td className="p-6 flex items-center gap-6">
                         <img src={v.images[0]} className="w-12 h-10 object-cover rounded" alt="" />
                        <div><p className="font-bold text-slate-900 uppercase">{v.marque} {v.modele}</p><p className="text-[9px] text-slate-500 font-mono">ID: {v._id}</p><p className="text-[10px] text-[#184f02] font-bold">{Number(v.prix).toLocaleString()} {siteConfig.features.currency}</p></div>
+                          {/* Badge de Localisation */}
+                          <div className="flex items-center gap-1.5 mt-1.5">
+                            <span className={`flex items-center gap-1 text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-tighter ${
+                              v.localisation === 'Canada' ? 'bg-blue-50 text-blue-600 border border-blue-100' :
+                              v.localisation === 'Allemagne' ? 'bg-orange-50 text-orange-700 border border-orange-100' :
+                              'bg-green-50 text-green-700 border border-green-100'
+                            }`}>
+                              {v.localisation === 'Canada' ? '🇨🇦 Canada' : 
+                              v.localisation === 'Allemagne' ? '🇩🇪 Allemagne' : 
+                              '🇹🇬 Togo (Sur place)'}
+                            </span>
+                          </div>
                       </td>
                       <td className="p-6 text-center font-black uppercase text-[9px]">{v.categorie}</td>
                       <td className="p-6 text-center font-bold">{v.views || 0}</td>

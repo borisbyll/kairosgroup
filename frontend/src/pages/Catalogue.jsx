@@ -35,6 +35,7 @@ const Catalog = () => {
 
   const [tempFilters, setTempFilters] = useState({
     categorie: 'Tous',
+    localisation: 'Tous', // AJOUT ICI
     marque: 'Tous',
     modele: 'Tous',
     prixMax: '',
@@ -64,6 +65,7 @@ const Catalog = () => {
     if (e) e.preventDefault();
     setCurrentPage(1);
     const results = vehicles.filter((v) => {
+      const matchLoc = tempFilters.localisation === 'Tous' || v.localisation === tempFilters.localisation; // AJOUT ICI
       const matchCat = tempFilters.categorie === 'Tous' || v.categorie === tempFilters.categorie;
       const matchMarque = tempFilters.marque === 'Tous' || v.marque === tempFilters.marque;
       const matchModele = tempFilters.modele === 'Tous' || v.modele === tempFilters.modele;
@@ -71,7 +73,7 @@ const Catalog = () => {
       const matchKm = tempFilters.kmMax === '' || Number(v.valeurCompteur) <= Number(tempFilters.kmMax);
       const matchAnnee = tempFilters.anneeMin === '' || Number(v.annee) >= Number(tempFilters.anneeMin);
       const matchMotor = tempFilters.motorisation === 'Tous' || v.motorisation === tempFilters.motorisation;
-      return matchCat && matchMarque && matchModele && matchPrix && matchKm && matchAnnee && matchMotor;
+      return matchLoc && matchCat && matchMarque && matchModele && matchPrix && matchKm && matchAnnee && matchMotor;
     });
     setFilteredVehicles(results);
     setIsFilterVisible(false);
@@ -87,6 +89,7 @@ const Catalog = () => {
   const resetFilters = () => {
     setTempFilters({
       categorie: 'Tous',
+      localisation: 'Tous', // AJOUT ICI
       marque: 'Tous',
       modele: 'Tous',
       prixMax: '',
@@ -177,6 +180,19 @@ const Catalog = () => {
                   {categoriesDispo.map(cat => <option key={cat} value={cat}>{cat}</option>)}
                 </select>
               </div>
+              <div className="flex flex-col gap-3">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Localisation actuelle</label>
+                <select 
+                  className="bg-transparent border-b-2 border-slate-100 focus:border-slate-900 px-1 py-3 text-sm font-bold outline-none appearance-none cursor-pointer text-blue-600"
+                  value={tempFilters.localisation}
+                  onChange={(e) => setTempFilters({...tempFilters, localisation: e.target.value})}
+                >
+                  <option value="Tous">Toutes les localisations</option>
+                  <option value="Togo">🇹🇬 Togo (Sur place)</option>
+                  <option value="Canada">🇨🇦 Canada (Arrivage)</option>
+                  <option value="Allemagne">🇩🇪 Allemagne (Arrivage)</option>
+                </select>
+            </div>
 
               <div className="flex flex-col gap-3">
                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Marque</label>

@@ -21,6 +21,28 @@ const Card = ({ car }) => {
           alt={`${car.marque} ${car.modele}`}
           className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110 group-hover:rotate-1 grayscale-[15%] group-hover:grayscale-0"
         />
+                    {/* Badge de Localisation superposé sur l'image */}
+            <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
+              <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg backdrop-blur-md shadow-lg border border-white/20 ${
+                car.localisation === 'Canada' ? 'bg-blue-600/80 text-white' :
+                car.localisation === 'Allemagne' ? 'bg-orange-600/80 text-white' :
+                'bg-green-600/80 text-white'
+              }`}>
+                <span className="text-sm">
+                  {car.localisation === 'Canada' ? '🇨🇦' : car.localisation === 'Allemagne' ? '🇩🇪' : '🇹🇬'}
+                </span>
+                <span className="text-[10px] font-black uppercase tracking-wider">
+                  {car.localisation || 'Togo'}
+                </span>
+              </div>
+              
+              {/* Optionnel : Badge "Importation" pour rassurer sur l'origine */}
+              {car.localisation !== 'Togo' && (
+                <div className="bg-white/90 text-slate-900 px-2 py-0.5 rounded-md text-[8px] font-bold uppercase w-fit shadow-sm">
+                  Arrivage Direct
+                </div>
+              )}
+            </div>
         
         {/* PRIX FLOTTANT : En haut à droite */}
         <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-md px-5 py-2 rounded-2xl shadow-xl z-10 border border-white/20">

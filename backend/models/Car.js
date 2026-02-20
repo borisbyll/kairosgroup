@@ -22,6 +22,11 @@ const carSchema = new mongoose.Schema({
     default: 'Manuelle',
     enum: ['Manuelle', 'Automatique'] 
   },
+  localisation: { 
+    type: String, 
+    default: 'Canada',
+    enum: ['Togo', 'Canada', 'Allemagne'] // Ceci sécurise les choix possibles
+  },
   tonnage: { type: String, default: '' },
   description: { type: String, trim: true },
   images: { type: [String], default: [] },
