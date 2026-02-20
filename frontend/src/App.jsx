@@ -13,7 +13,7 @@ import Admin from './pages/Admin';
 import Login from './pages/login'; // Vérifie la majuscule ici aussi
 import { siteConfig } from './config/siteConfig'; 
 
-// Blog (Nouvelles routes Emile Auto)
+// Blog (Nouvelles routes Kairos group)
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 

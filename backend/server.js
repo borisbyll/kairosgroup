@@ -31,10 +31,11 @@ app.use(cors({
       callback(new Error('Bloqué par CORS'));
     }
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE','OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Ajoute OPTIONS ici
+  allowedHeaders: ['Content-Type', 'Authorization'],    // AJOUTE CETTE LIGNE
   credentials: true
 }));
-
 // --- BRANCHEMENT DES ROUTES MODULAIRES ---
 app.use('/api/posts', postRoutes);
 app.use('/api/notifications', notificationRoutes);
