@@ -239,34 +239,52 @@ const confirmBulkDelete = async () => {
     setActiveMenu('publish'); 
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (editId) {
-      // Correction ici : on ajoute l'objet { headers: ... }
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  const config = {
+    headers: getAuthHeader()
+  };
+
+  try {
+    if (editId) {
       await axios.put(`${API_URL}/api/cars/${editId}`, formData, config);
       setLastId(editId);
     } else {
-      // Correction ici : on ajoute l'objet { headers: ... }
       const res = await axios.post(`${API_URL}/api/cars/add`, formData, config);
       setLastId(res.data._id);
     }
-      setShowSuccessModal(true);
-      setEditId(null);
-      setFormData({ localisation: 'Togo',categorie: 'Voiture', marque: '', modele: '', prix: '', annee: 2026, valeurCompteur: '', tonnage: '', motorisation: 'Diesel', transmission: 'Automatique', description: '', images: [] });
-      fetchVehicles();
-    } catch (err) { 
-  console.error("Détails complets de l'erreur:", err.response?.data || err); // Ajoute cette ligne
-  if(err.response?.status === 401) {
-    localStorage.removeItem('adminToken');
-    navigate('/login');
-  } else {
-    // Affiche le message précis renvoyé par le serveur
-    alert("Erreur : " + (err.response?.data?.message || "Problème serveur")); 
+    
+    setShowSuccessModal(true);
+    setEditId(null);
+    
+    // RÉINITIALISATION COMPLÈTE (Localisation incluse)
+    setFormData({ 
+      categorie: 'Voiture', 
+      marque: '', 
+      modele: '', 
+      prix: '', 
+      annee: 2026, 
+      valeurCompteur: '', 
+      tonnage: '', 
+      motorisation: 'Essence', 
+      transmission: 'Automatique', 
+      description: '', 
+      images: [], 
+      localisation: 'Togo' // <-- Ajouté ici
+    });
+    
+    fetchVehicles();
+  } catch (err) { 
+    console.error("Erreur API:", err.response?.data || err);
+    if(err.response?.status === 401) {
+      localStorage.removeItem('adminToken');
+      navigate('/login');
+    } else {
+      alert("Erreur lors de l'enregistrement"); 
+    }
   }
-}
-  };
-
+};
   const confirmDelete = async () => {
   try {
     // CORRECTION : on place getAuthHeader() à l'intérieur d'un objet { headers: ... }
