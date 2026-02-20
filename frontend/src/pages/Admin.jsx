@@ -243,15 +243,17 @@ const confirmBulkDelete = async () => {
     e.preventDefault();
     try {
       if (editId) {
-        await axios.put(`${API_URL}/api/cars/${editId}`, formData, getAuthHeader());
-        setLastId(editId);
-      } else {
-        const res = await axios.post(`${API_URL}/api/cars/add`, formData, getAuthHeader());
-        setLastId(res.data._id);
-      }
+      // Correction ici : on ajoute l'objet { headers: ... }
+      await axios.put(`${API_URL}/api/cars/${editId}`, formData, config);
+      setLastId(editId);
+    } else {
+      // Correction ici : on ajoute l'objet { headers: ... }
+      const res = await axios.post(`${API_URL}/api/cars/add`, formData, config);
+      setLastId(res.data._id);
+    }
       setShowSuccessModal(true);
       setEditId(null);
-      setFormData({ categorie: 'Voiture', marque: '', modele: '', prix: '', annee: 2026, valeurCompteur: '', tonnage: '', motorisation: 'Diesel', transmission: 'Automatique', description: '', images: [] });
+      setFormData({ localisation: 'Togo',categorie: 'Voiture', marque: '', modele: '', prix: '', annee: 2026, valeurCompteur: '', tonnage: '', motorisation: 'Diesel', transmission: 'Automatique', description: '', images: [] });
       fetchVehicles();
     } catch (err) { 
       if(err.response?.status === 401) navigate('/login');
