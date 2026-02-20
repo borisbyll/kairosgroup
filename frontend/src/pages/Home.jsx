@@ -224,7 +224,7 @@ const Home = () => {
         </div>
         <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase mb-4 tracking-tighter italic">Disponibilité Immédiate</h3>
         <p className="text-slate-500 text-sm md:text-base leading-relaxed mb-6">
-          Une sélection de véhicules est déjà <strong>dédouanée et disponible sur le territoire togolais</strong>. Idéal pour ceux qui souhaitent inspecter, tester et repartir avec leur voiture le jour même.
+          Une sélection de véhicules est déjà <strong>disponible sur le territoire togolais</strong>. Idéal pour ceux qui souhaitent inspecter, tester et repartir avec leur voiture le jour même.
         </p>
         <div className="flex items-center gap-3 text-slate-900 font-black text-[10px] uppercase tracking-widest">
            <span className="w-8 h-[2px]" style={{ backgroundColor: primaryColor }}></span> Stock Togo
@@ -283,7 +283,7 @@ const Home = () => {
         </div>
         <div>
           <h4 className="text-sm md:text-lg font-bold uppercase tracking-tight">Quel que soit votre choix, nous sécurisons l'achat.</h4>
-          <p className="text-slate-400 text-[8px] md:text-xs uppercase tracking-widest italic"><span translate='no'>Kairos Group</span> : La confiance à chaque kilomètre</p>
+          <p className="text-slate-400 text-[8px] md:text-xs uppercase tracking-widest italic"><strong translate='no'>Kairos Group</strong> : La confiance à chaque kilomètre</p>
         </div>
       </div>
       <Link to="/Catalogue" style={{ backgroundColor: primaryColor }} className="w-full md:w-auto text-center px-8 md:px-10 py-4 rounded-full font-bold uppercase text-[10px] tracking-widest hover:opacity-90 transition-opacity">
