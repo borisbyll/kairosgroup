@@ -202,7 +202,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      {/* --- NOUVELLE SECTION : NOTRE PROCESSUS D'IMPORTATION --- */}
+{/* --- NOUVELLE SECTION : NOTRE PROCESSUS & STRATÉGIE --- */}
 <section id="processus" className="py-16 md:py-28 bg-slate-50 relative overflow-hidden">
   <div className="max-w-7xl mx-auto px-4 md:px-6">
     <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
@@ -211,35 +211,66 @@ const Home = () => {
         Une Logistique <br /> <span className="text-slate-300 italic">Transcontinentale</span>
       </h2>
       <p className="mt-6 md:mt-8 text-slate-600 font-medium text-sm md:text-base">
-        Basés au <span className="text-slate-900 font-bold">Canada</span>, en <span className="text-slate-900 font-bold">Allemagne</span> et au <span className="text-slate-900 font-bold">Togo</span>, nous supprimons les intermédiaires pour vous offrir le meilleur du marché mondial.
+        Chez <span className="text-slate-900 font-bold">{siteConfig.name}</span>, nous connectons les marchés. Que vous soyez pressé ou en quête d'une configuration rare, nous avons la solution.
       </p>
     </div>
 
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
+    {/* BLOC DES DEUX OPTIONS STRATÉGIQUES */}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
+      {/* Option 1: Stock Local */}
+      <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border-t-4 relative overflow-hidden group" style={{ borderTopColor: primaryColor }}>
+        <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:rotate-12 transition-transform duration-500">
+          <span className="text-8xl">📍</span>
+        </div>
+        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase mb-4 tracking-tighter italic">Disponibilité Immédiate</h3>
+        <p className="text-slate-500 text-sm md:text-base leading-relaxed mb-6">
+          Une sélection de véhicules est déjà <strong>dédouanée et disponible sur le territoire togolais</strong>. Idéal pour ceux qui souhaitent inspecter, tester et repartir avec leur voiture le jour même.
+        </p>
+        <div className="flex items-center gap-3 text-slate-900 font-black text-[10px] uppercase tracking-widest">
+           <span className="w-8 h-[2px]" style={{ backgroundColor: primaryColor }}></span> Stock Togo
+        </div>
+      </div>
+
+      {/* Option 2: Importation */}
+      <div className="bg-slate-900 p-8 md:p-12 rounded-[2.5rem] shadow-xl border-t-4 relative overflow-hidden group" style={{ borderTopColor: primaryColor }}>
+        <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:-rotate-12 transition-transform duration-500">
+          <span className="text-8xl">🚢</span>
+        </div>
+        <h3 className="text-2xl md:text-3xl font-black text-white uppercase mb-4 tracking-tighter italic">Importation Sur-Mesure</h3>
+        <p className="text-slate-400 text-sm md:text-base leading-relaxed mb-6">
+          Accédez aux enchères et parcs exclusifs au <strong>Canada et en Allemagne</strong>. Économisez sur le prix d'achat et obtenez des options haut de gamme introuvables localement, livrées en 45 jours.
+        </p>
+        <div className="flex items-center gap-3 text-white font-black text-[10px] uppercase tracking-widest">
+           <span className="w-8 h-[2px]" style={{ backgroundColor: primaryColor }}></span> Direct Occident
+        </div>
+      </div>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 opacity-80 scale-95">
       {/* Étape 1 */}
-      <div className="relative p-8 md:p-10 bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-sm border border-slate-100 group hover:shadow-xl transition-all duration-500">
-        <div className="absolute -top-5 md:-top-6 left-8 md:left-10 w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center text-white font-black text-lg md:text-xl shadow-lg group-hover:scale-110 transition-transform" style={{ backgroundColor: primaryColor }}>01</div>
-        <h3 className="text-lg md:text-xl font-black text-slate-900 uppercase mb-4 mt-4 tracking-tight">Sourcing International</h3>
+      <div className="relative p-8 md:p-10 bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-sm border border-slate-100 group transition-all duration-500">
+        <div className="absolute -top-5 md:-top-6 left-8 md:left-10 w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center text-white font-black text-lg md:text-xl shadow-lg" style={{ backgroundColor: primaryColor }}>01</div>
+        <h3 className="text-lg md:text-xl font-black text-slate-900 uppercase mb-4 mt-4 tracking-tight">Sourcing Expert</h3>
         <p className="text-slate-500 text-xs md:text-sm leading-relaxed">
-          Nos équipes au <strong>Canada</strong> et en <strong>Allemagne</strong> sélectionnent rigoureusement les meilleurs véhicules, camions et tracteurs. Vous achetez à la source, au prix réel du marché international.
+          Nos équipes au <strong>Canada</strong> et en <strong>Allemagne</strong> sélectionnent rigoureusement les meilleurs véhicules. Vous achetez à la source, au prix réel.
         </p>
       </div>
 
       {/* Étape 2 */}
-      <div className="relative p-8 md:p-10 bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-sm border border-slate-100 group hover:shadow-xl transition-all duration-500">
-        <div className="absolute -top-5 md:-top-6 left-8 md:left-10 w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center text-white font-black text-lg md:text-xl shadow-lg group-hover:scale-110 transition-transform" style={{ backgroundColor: primaryColor }}>02</div>
+      <div className="relative p-8 md:p-10 bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-sm border border-slate-100 group transition-all duration-500">
+        <div className="absolute -top-5 md:-top-6 left-8 md:left-10 w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center text-white font-black text-lg md:text-xl shadow-lg" style={{ backgroundColor: primaryColor }}>02</div>
         <h3 className="text-lg md:text-xl font-black text-slate-900 uppercase mb-4 mt-4 tracking-tight">Prix "Tout Inclus"</h3>
         <p className="text-slate-500 text-xs md:text-sm leading-relaxed">
-          Aucune surprise à l'arrivée. Le prix affiché sur notre catalogue couvre : <strong>l'achat du véhicule, les formalités administratives export et le transport sécurisé</strong> jusqu'au Port de Lomé.
+          Aucune surprise. Le prix affiché couvre : <strong>l'achat, les formalités export et le transport sécurisé</strong> jusqu'au Port de Lomé.
         </p>
       </div>
 
       {/* Étape 3 */}
-      <div className="relative p-8 md:p-10 bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-sm border border-slate-100 group hover:shadow-xl transition-all duration-500">
-        <div className="absolute -top-5 md:-top-6 left-8 md:left-10 w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center text-white font-black text-lg md:text-xl shadow-lg group-hover:scale-110 transition-transform" style={{ backgroundColor: primaryColor }}>03</div>
+      <div className="relative p-8 md:p-10 bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-sm border border-slate-100 group transition-all duration-500">
+        <div className="absolute -top-5 md:-top-6 left-8 md:left-10 w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center text-white font-black text-lg md:text-xl shadow-lg" style={{ backgroundColor: primaryColor }}>03</div>
         <h3 className="text-lg md:text-xl font-black text-slate-900 uppercase mb-4 mt-4 tracking-tight">Livraison Garantie</h3>
         <p className="text-slate-500 text-xs md:text-sm leading-relaxed">
-          Une fois le véhicule embarqué, nous garantissons une livraison au Port de Lomé sous <strong>45 jours maximum</strong>. Notre représentation locale au Togo assure le suivi final de votre acquisition.
+          Livraison au Port de Lomé sous <strong>45 jours maximum</strong>. Notre représentation locale au Togo assure le suivi final.
         </p>
       </div>
     </div>
@@ -251,12 +282,12 @@ const Home = () => {
           <span style={{ color: primaryColor }} className="text-xl md:text-2xl">⚓</span>
         </div>
         <div>
-          <h4 className="text-sm md:text-lg font-bold uppercase tracking-tight">Destination Finale : Port de Lomé</h4>
-          <p className="text-slate-400 text-[8px] md:text-xs uppercase tracking-widest">Sécurité - Rapidité - Transparence</p>
+          <h4 className="text-sm md:text-lg font-bold uppercase tracking-tight">Quel que soit votre choix, nous sécurisons l'achat.</h4>
+          <p className="text-slate-400 text-[8px] md:text-xs uppercase tracking-widest italic"><span translate='no'>Kairos Group</span> : La confiance à chaque kilomètre</p>
         </div>
       </div>
       <Link to="/Catalogue" style={{ backgroundColor: primaryColor }} className="w-full md:w-auto text-center px-8 md:px-10 py-4 rounded-full font-bold uppercase text-[10px] tracking-widest hover:opacity-90 transition-opacity">
-        Voir les arrivages en cours
+        Découvrir le catalogue complet
       </Link>
     </div>
   </div>
