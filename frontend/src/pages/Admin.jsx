@@ -256,9 +256,15 @@ const confirmBulkDelete = async () => {
       setFormData({ localisation: 'Togo',categorie: 'Voiture', marque: '', modele: '', prix: '', annee: 2026, valeurCompteur: '', tonnage: '', motorisation: 'Diesel', transmission: 'Automatique', description: '', images: [] });
       fetchVehicles();
     } catch (err) { 
-      if(err.response?.status === 401) navigate('/login');
-      else alert("Erreur lors de l'enregistrement"); 
-    }
+  console.error("Détails complets de l'erreur:", err.response?.data || err); // Ajoute cette ligne
+  if(err.response?.status === 401) {
+    localStorage.removeItem('adminToken');
+    navigate('/login');
+  } else {
+    // Affiche le message précis renvoyé par le serveur
+    alert("Erreur : " + (err.response?.data?.message || "Problème serveur")); 
+  }
+}
   };
 
   const confirmDelete = async () => {
